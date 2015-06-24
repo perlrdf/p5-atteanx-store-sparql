@@ -17,7 +17,7 @@ use LWP::UserAgent;
 use Data::Dumper;
 use Carp;
 
-with 'Attean::API::QuadStore';
+with 'Attean::API::TripleStore';
 
 has 'endpoint_url' => (is => 'ro', isa => Uri, coerce => 1);
 has 'ua' => (is => 'rw', isa => InstanceOf['LWP::UserAgent'], builder => '_build_ua');
@@ -29,7 +29,11 @@ sub _build_ua {
 	return $ua;
 }
 
-
+sub get_triples {
+	my $self = shift;
+	my $pattern = Attean::TriplePattern->new(@_);
+	return $self->_get_sparql("CONSTRUCT WHERE {\n\t".$pattern->tuples_string."\n}");
+}
 
 
 sub _get_sparql {
