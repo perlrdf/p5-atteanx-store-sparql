@@ -10,6 +10,7 @@ our $VERSION   = '0.001';
 use Moo;
 use Types::URI -all;
 use Types::Standard qw(InstanceOf);
+use Attean;
 use AtteanX::Parser::SPARQLXML::SAXHandler;
 use URI::Escape::XS;
 use LWP::UserAgent;
@@ -24,14 +25,13 @@ has 'ua' => (is => 'rw', isa => InstanceOf['LWP::UserAgent'], builder => '_build
 sub _build_ua {
 	my $self = shift;
 	my $ua = LWP::UserAgent->new;
-	$ua->default_headers->push_header( 'Accept' => "application/sparql-results+xml;q=1");
+	$ua->default_headers->push_header( 'Accept' => Attean->acceptable_parsers);
 	return $ua;
 }
 
 sub _get_sparql {
 	my ($self, $sparql) = @_;
-	my $handler	= AtteanX::Parser::SPARQLXML::SAXHandler->new;
-	my $p	= XML::SAX::ParserFactory->parser(Handler => $handler);
+	
 	my $ua = $self->ua;
 	
 # 	warn $sparql;
@@ -42,13 +42,15 @@ sub _get_sparql {
 	$url->query_form(%query);
 	my $response	= $ua->get( $url );
 	if ($response->is_success) {
-		$p->parse_string( $response->decoded_content );
-		return $handler->iterator;
+		my $parsertype = Attean->get_parser( media_type => $response->content_type);
+		croak 'Could not parse response from '. $self->endpoint_url->as_string . ' which returned ' . $response->content_type unless defined($parsertype);
+		my $p = $parsertype->new;
+		return $p->parse_iter_from_bytes($response->decoded_content);
 	} else {
 #		warn "url: $url\n";
 #		warn $sparql;
 		warn Dumper($response);
-		croak 'Error making remote SPARQL call to endpoint ' . $self->endpoint_url->as_string . '(' .$response->status_line. ')';
+		croak 'Error making remote SPARQL call to endpoint ' . $self->endpoint_url->as_string . ' (' .$response->status_line. ')';
 	}
 }
 
