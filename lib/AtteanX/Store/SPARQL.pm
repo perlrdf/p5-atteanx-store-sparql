@@ -29,13 +29,14 @@ sub _build_ua {
 	return $ua;
 }
 
+
+
+
 sub _get_sparql {
 	my ($self, $sparql) = @_;
-	
 	my $ua = $self->ua;
-	
 # 	warn $sparql;
-	
+
 	my $url = $self->endpoint_url->clone;
 	my %query = $url->query_form;
 	$query{'query'} = uri_escape($sparql);
