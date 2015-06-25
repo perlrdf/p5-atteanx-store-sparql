@@ -25,19 +25,31 @@ use warnings;
 use Test::More;
 use Test::Roo;
 use RDF::Trine::Model;
-use RDF::Trine qw(statement iri);
+use RDF::Trine qw(statement iri blank literal);
 use RDF::Endpoint;
 use Test::LWP::UserAgent;
 use HTTP::Message::PSGI;
+#use Carp::Always;
 
 sub create_store {
 	my $self = shift;
 	my %args        = @_;
 	my $quads       = $args{quads} // [];
 	my $model = RDF::Trine::Model->temporary_model; # For creating endpoint
-#	foreach my $atteanquad (@{$quads}) {
-	$model->add_statement(statement(iri('foo'), iri('bar'), iri('baz')));
-#  } TODO actually add statements
+	foreach my $atteanquad (@{$quads}) {
+		my $s = iri($atteanquad->subject->value);
+		if ($atteanquad->subject->is_blank) {
+			$s = blank($atteanquad->subject->value);
+		}
+		my $p = iri($atteanquad->predicate->value);
+		my $o = iri($atteanquad->object->value);
+		if ($atteanquad->object->is_literal) {
+			$o = literal($atteanquad->object->value, $atteanquad->object->language, $atteanquad->object->datatype);
+		} else {
+			$o = blank($atteanquad->object->value);
+		}
+		$model->add_statement(statement($s, $p, $o));
+	}
 	my $end = RDF::Endpoint->new($model);
 	my $app = sub {
 		my $env 	= shift;
