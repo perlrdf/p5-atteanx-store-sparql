@@ -30,23 +30,24 @@ use RDF::Endpoint;
 use Test::LWP::UserAgent;
 use HTTP::Message::PSGI;
 #use Carp::Always;
+use Data::Dumper;
 
 sub create_store {
 	my $self = shift;
 	my %args        = @_;
-	my $quads       = $args{quads} // [];
+	my $triples       = $args{triples} // [];
 	my $model = RDF::Trine::Model->temporary_model; # For creating endpoint
-	foreach my $atteanquad (@{$quads}) {
-		my $s = iri($atteanquad->subject->value);
-		if ($atteanquad->subject->is_blank) {
-			$s = blank($atteanquad->subject->value);
+	foreach my $atteantriple (@{$triples}) {
+		my $s = iri($atteantriple->subject->value);
+		if ($atteantriple->subject->is_blank) {
+			$s = blank($atteantriple->subject->value);
 		}
-		my $p = iri($atteanquad->predicate->value);
-		my $o = iri($atteanquad->object->value);
-		if ($atteanquad->object->is_literal) {
-			$o = literal($atteanquad->object->value, $atteanquad->object->language, $atteanquad->object->datatype);
+		my $p = iri($atteantriple->predicate->value);
+		my $o = iri($atteantriple->object->value);
+		if ($atteantriple->object->is_literal) {
+			$o = literal($atteantriple->object->value, $atteantriple->object->language, $atteantriple->object->datatype);
 		} else {
-			$o = blank($atteanquad->object->value);
+			$o = blank($atteantriple->object->value);
 		}
 		$model->add_statement(statement($s, $p, $o));
 	}
