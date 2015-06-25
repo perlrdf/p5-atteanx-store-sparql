@@ -13,7 +13,6 @@ use Types::Standard qw(InstanceOf);
 use Scalar::Util qw(blessed);
 use Attean;
 use Attean::RDF;
-use AtteanX::Parser::SPARQLXML::SAXHandler;
 use LWP::UserAgent;
 use Data::Dumper;
 use Carp;
