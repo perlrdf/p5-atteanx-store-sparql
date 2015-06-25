@@ -94,19 +94,48 @@ AtteanX::Store::SPARQL - Attean SPARQL store
 
 =head1 SYNOPSIS
 
+  my $store = Attean->get_store('SPARQL')->new(endpoint_url => $url);
+
 =head1 DESCRIPTION
+
+This implements a simplistic (for now) immutable triple store, which
+simply allows programmers to use L<Attean> facilities to query remote
+SPARQL endpoints.
+
+=head2 Attributes and methods
+
+=over
+
+=item C<< endpoint_url >>
+
+The URL of a remote SPARQL endpoint. Will be coerced into a L<URI>
+object, so it may be set as a string or whatever. Required attribute.
+
+=item C<< ua >>
+
+An L<LWP::UserAgent> object to use for remote queries. Will be set to
+a reasonable default if not supplied.
+
+=item C<< get_triples >>
+
+Method to query the remote endpoint, as required by L<Attean::API::TripleStore>.
+
+=item C<< count_triples >>
+
+Reimplemented using an aggregate query for greater efficiency.
+
+=back
+
+
 
 =head1 BUGS
 
 Please report any bugs to
-L<http://rt.cpan.org/Dist/Display.html?Queue=AtteanX-Store-SPARQL>.
-
-=head1 SEE ALSO
+L<https://github.com/kjetilk/p5-atteanx-store-sparql/issues>.
 
 =head1 ACKNOWLEDGEMENTS
 
-This module is heavily influencd (even containing code cutnpasted)
-from L<RDF::Trine::Store::SPARQL>.
+This module is heavily influenced by L<RDF::Trine::Store::SPARQL>.
 
 =head1 AUTHOR
 
