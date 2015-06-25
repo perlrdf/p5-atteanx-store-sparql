@@ -4,6 +4,20 @@
 
 `AtteanX-Store-SPARQL`
 	:test-requirement       [ :on "Test::More 0.96"^^:CpanId ];
+	:test-requirement       [ :on "Test::Roo"^^:CpanId ];
+	:test-requirement       [ :on "RDF::Trine"^^:CpanId ];
+	:test-requirement       [ :on "RDF::Endpoint"^^:CpanId ];
+	:test-requirement       [ :on "Test::LWP::UserAgent 0.027"^^:CpanId ];
+	:test-requirement       [ :on "HTTP::Message::PSGI"^^:CpanId ];
+        :runtime-requirement    [ :on "Moo"^^:CpanId ];
+        :runtime-requirement    [ :on "Attean 0.006"^^:CpanId ];
+        :runtime-requirement    [ :on "Types::Standard"^^:CpanId ];
+        :runtime-requirement    [ :on "Types::URI"^^:CpanId ];
+        :runtime-requirement    [ :on "LWP::UserAgent"^^:CpanId ];
+        :runtime-requirement    [ :on "Scalar::Util"^^:CpanId ];
+        :runtime-requirement    [ :on "perl 5.010"^^:CpanId ] ;
+        :runtime-requirement    [ :on "Carp"^^:CpanId ] ;
+        :runtime-requirement    [ :on "Data::Dumper"^^:CpanId ] ;
 	:develop-recommendation [ :on "Dist::Inkt 0.001"^^:CpanId ];
 	.
 
