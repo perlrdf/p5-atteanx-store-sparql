@@ -45,7 +45,12 @@ sub create_store {
 		my $p = iri($atteantriple->predicate->value);
 		my $o = iri($atteantriple->object->value);
 		if ($atteantriple->object->is_literal) {
-			$o = literal($atteantriple->object->value, $atteantriple->object->language, $atteantriple->object->datatype->value);
+			# difference with RDF 1.0 vs RDF 1.1 datatype semantics
+			if ($atteantriple->object->datatype->value eq 'http://www.w3.org/2001/XMLSchema#string') {
+				$o = literal($atteantriple->object->value, $atteantriple->object->language);
+			} else {
+				$o = literal($atteantriple->object->value, $atteantriple->object->language, $atteantriple->object->datatype->value);
+			}
 		} elsif ($atteantriple->object->is_blank) {
 			$o = blank($atteantriple->object->value);
 		}
