@@ -11,8 +11,8 @@ use Moo;
 use Types::URI -all;
 use Types::Standard qw(InstanceOf);
 use Attean;
+use Attean::RDF;
 use AtteanX::Parser::SPARQLXML::SAXHandler;
-use URI::Escape::XS;
 use LWP::UserAgent;
 use Data::Dumper;
 use Carp;
@@ -31,7 +31,11 @@ sub _build_ua {
 
 sub get_triples {
 	my $self = shift;
-	my $pattern = Attean::TriplePattern->new(@_);
+	my @nodes = @_;
+	for (my $i=scalar(@nodes); $i < 3; $i++) { # TODO: temporary hack
+		push(@nodes, variable("var$i"));
+	}
+	my $pattern = Attean::TriplePattern->new(@nodes);
 	return $self->_get_sparql("CONSTRUCT WHERE {\n\t".$pattern->tuples_string."\n}");
 }
 
@@ -43,7 +47,7 @@ sub _get_sparql {
 
 	my $url = $self->endpoint_url->clone;
 	my %query = $url->query_form;
-	$query{'query'} = uri_escape($sparql);
+	$query{'query'} = $sparql;
 	$url->query_form(%query);
 	my $response	= $ua->get( $url );
 	if ($response->is_success) {
