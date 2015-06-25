@@ -30,7 +30,7 @@ sub _build_ua {
 	return $ua;
 }
 
-sub get_triples {
+sub _create_pattern {
 	my $self = shift;
 	my @nodes = (variable('var1'), variable('var2'), variable('var3'));
 	for (my $i=0; $i <= 2; $i++) { # TODO: temporary hack
@@ -38,7 +38,12 @@ sub get_triples {
 			$nodes[$i] = $_[$i];
 		}
 	}
-	my $pattern = Attean::TriplePattern->new(@nodes);
+	return Attean::TriplePattern->new(@nodes);
+}
+
+sub get_triples {
+	my $self = shift;
+	my $pattern = $self->_create_pattern(@_);
 	return $self->_get_sparql("CONSTRUCT WHERE {\n\t".$pattern->tuples_string."\n}");
 }
 
