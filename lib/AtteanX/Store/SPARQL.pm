@@ -47,10 +47,19 @@ sub get_triples {
 	return $self->_get_sparql("CONSTRUCT WHERE {\n\t".$pattern->tuples_string."\n}");
 }
 
+sub count_triples {
+	my $self = shift;
+	my $pattern = $self->_create_pattern(@_);
+	my $ua = $self->ua->clone;
+	$ua->default_headers->header( 'Accept' => 'application/sparql-results+json;q=1,application/sparql-results+xml;q=0.9');
+	my $iter = $self->_get_sparql("SELECT (count(*) AS ?count) WHERE {\n\t".$pattern->tuples_string."\n}");
+	return $iter->next->value('count')->value;
+}
 
 sub _get_sparql {
-	my ($self, $sparql) = @_;
-	my $ua = $self->ua;
+	my $self = shift;
+	my $sparql = shift;
+	my $ua = shift || $self->ua;
 # 	warn $sparql;
 
 	my $url = $self->endpoint_url->clone;
