@@ -15,7 +15,7 @@
         :runtime-requirement    [ :on "Types::URI"^^:CpanId ];
         :runtime-requirement    [ :on "LWP::UserAgent"^^:CpanId ];
         :runtime-requirement    [ :on "Scalar::Util"^^:CpanId ];
-        :runtime-requirement    [ :on "perl 5.010"^^:CpanId ] ;
+        :runtime-requirement    [ :on "perl 5.014"^^:CpanId ] ;
         :runtime-requirement    [ :on "Carp"^^:CpanId ] ;
         :runtime-requirement    [ :on "Data::Dumper"^^:CpanId ] ;
 	:develop-recommendation [ :on "Dist::Inkt 0.001"^^:CpanId ];
