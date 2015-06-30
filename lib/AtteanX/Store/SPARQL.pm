@@ -124,7 +124,7 @@ Method to query the remote endpoint, as required by L<Attean::API::TripleStore>.
 
 Reimplemented using an aggregate query for greater efficiency.
 
-=item C<< get_sparql($sparql, [ $ua ])>>
+=item C<< get_sparql($sparql, [ $ua ]) >>
 
 Will submit the given C<$sparql> query to the above C<endpoint_url>
 attribute. Optionally, you may pass an L<LWP::UserAgent>, if not it

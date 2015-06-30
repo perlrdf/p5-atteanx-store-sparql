@@ -25,6 +25,8 @@ use Attean::API::Query;
 
 Evaluates a quad pattern against the model.
 
+=back
+
 =cut
 
 package AtteanX::Store::SPARQL::Plan::BGP;
