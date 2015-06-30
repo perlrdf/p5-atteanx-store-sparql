@@ -38,34 +38,20 @@ has 'triples' => (is => 'ro', isa => ArrayRef[ConsumerOf['Attean::API::TriplePat
 
 with 'Attean::API::Plan';
 
-# sub plan_as_string {
-# 	my $self	= shift;
-# 	my @nodes	= $self->values;
-# 	my @strings;
-# 	foreach my $t (@nodes) {
-# 		if (ref($t) eq 'ARRAY') {
-# 			my @tstrings	= map { $_->ntriples_string } @$t;
-# 			if (scalar(@tstrings) == 1) {
-# 				push(@strings, @tstrings);
-# 			} else {
-# 				push(@strings, '[' . join(', ', @tstrings) . ']');
-# 			}
-# 		} elsif ($t->does('Attean::API::TermOrVariable')) {
-# 			push(@strings, $t->ntriples_string);
-# 		} else {
-# 			use Data::Dumper;
-# 			die "Unrecognized node in quad pattern: " . Dumper($t);
-# 		}
-# 	}
-# 	return sprintf('Quad { %s }', join(', ', @strings));
-# }
+sub plan_as_string {
+ 	my $self	= shift;
+	my $string = 'SPARQLBGP {';
+ 	foreach my $t ($self->triples) {
+		$string .= "\n\t" . $t->tuples_string;
+	}
+	return "$string\n}";
 
 sub impl {
 	my $self	= shift;
 	my $model	= shift;
 	my $sparql	= 'SELECT * WHERE {';
 	foreach my $t ($self->triples) {
-		$sparql .= "\n\t" . $t->as_sparql;
+		$sparql .= "\n\t" . $t->tuples_string
 	}
 	$sparql .= "\n}";
 	return sub {
