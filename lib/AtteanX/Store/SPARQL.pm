@@ -55,7 +55,7 @@ sub count_triples {
 	return $iter->next->value('count')->value;
 }
 
-sub _get_sparql {
+sub get_sparql {
 	my $self = shift;
 	my $sparql = shift;
 	my $ua = shift || $self->ua;
@@ -123,6 +123,15 @@ Method to query the remote endpoint, as required by L<Attean::API::TripleStore>.
 =item C<< count_triples >>
 
 Reimplemented using an aggregate query for greater efficiency.
+
+=item C<< get_sparql($sparql, [ $ua ])>>
+
+Will submit the given C<$sparql> query to the above C<endpoint_url>
+attribute. Optionally, you may pass an L<LWP::UserAgent>, if not it
+will use the user agent set using the C<ua> method. Will return an
+iterator with the results if the request is successful.
+
+
 
 =back
 
