@@ -7,6 +7,7 @@ package AtteanX::Store::SPARQL;
 our $AUTHORITY = 'cpan:KJETILK';
 our $VERSION   = '0.001';
 
+use Moo;
 use Type::Tiny::Role;
 use Types::URI -all;
 use Types::Standard qw(InstanceOf);
