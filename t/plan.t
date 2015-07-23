@@ -4,6 +4,7 @@ use Attean;
 use Attean::RDF;
 use AtteanX::Store::SPARQL::Plan::Triple;
 use Data::Dumper;
+use Carp::Always;
 
 package TestPlanner {
 	use Moo;
@@ -23,6 +24,8 @@ package TestPlanner {
 																		 in_scope_variables => [ map {$_->value} @vars],
 																		 distinct => 0);
 	}
+
+
 };
 
 my $p = TestPlanner->new();
@@ -46,16 +49,11 @@ subtest '1-triple BGP two variables' => sub {
 
 subtest '3-triple BGP two variables' => sub {
 	my $bgp		= Attean::Algebra::BGP->new(triples => [$u, $t, $v]);
-	is(scalar $p->plans_for_algebra($bgp, $model, [iri('test')]), 5, "Five different plans");
 	my $plan	= $p->plan_for_algebra($bgp, $model, [iri('test')]);
 	does_ok($plan, 'Attean::API::Plan', '3-triple BGP');
-	isa_ok($plan, 'Attean::Plan::NestedLoopJoin');
+	isa_ok($plan, 'AtteanX::Store::SPARQL::Plan::BGP');
 	my $sp = $plan->as_string;
-	like($sp, qr/SPARQLTriple/, 'SPARQLTriple is in there');
-	like($sp, qr/SPARQLTriple.+SPARQLTriple.+SPARQLTriple/s, 'SPARQLTriple is in there three times');
-	like($sp, qr/NestedLoop.+NestedLoop/s, 'NestedLoop is in there twice');
-	like($sp, qr/SPARQLTriple { \?s, <p>, \?o }/, 'One of the triple patterns are there');
-	is($plan->plan_as_string, 'NestedLoop Join', 'plan_as_string gives the correct string');
+	is($plan->plan_as_string, 'SPARQLBGP { ?s <p> ?o ., ?s <p> "1" ., ?s <q> _:xyz . }', 'plan_as_string gives the correct string');
 };
 
 done_testing;
