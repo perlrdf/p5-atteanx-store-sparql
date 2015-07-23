@@ -64,7 +64,7 @@ my $u		= triple(variable('s'), iri('p'), variable('o'));
 my $v		= triple(variable('s'), iri('q'), blank('xyz'));
 my $w		= triple(variable('a'), iri('b'), iri('c'));
 
-subtest '1-triple BGP single variable' => sub {
+subtest '1-triple BGP two variables' => sub {
 	my $bgp		= Attean::Algebra::BGP->new(triples => [$u]);
 	my $plan	= $p->plan_for_algebra($bgp, $model);
 	does_ok($plan, 'Attean::API::Plan', '1-triple BGP');
