@@ -37,7 +37,7 @@ my $w		= triple(variable('a'), iri('b'), iri('c'));
 
 subtest '1-triple BGP single variable' => sub {
 	my $bgp		= Attean::Algebra::BGP->new(triples => [$u]);
-	my $plan	= $p->plan_for_algebra($bgp, $model);
+	my $plan	= $p->plan_for_algebra($bgp, $model, [iri('test')]);
 	does_ok($plan, 'Attean::API::Plan', '1-triple BGP');
 	isa_ok($plan, 'AtteanX::Store::SPARQL::Plan::Triple');
 	is($plan->plan_as_string, 'SPARQLTriple { ?s, <p>, ?o }', 'as_string gives the correct string');
