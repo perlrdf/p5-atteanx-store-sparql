@@ -26,7 +26,7 @@ has 'ua' => (is => 'rw', isa => InstanceOf['LWP::UserAgent'], builder => '_build
 sub _build_ua {
 	my $self = shift;
 	my $ua = LWP::UserAgent->new;
-	$ua->default_headers->push_header( 'Accept' => Attean->acceptable_parsers);
+	$ua->default_headers->push_header( 'Accept' => Attean->acceptable_parsers(handles => q[Attean::API::Result]));
 	return $ua;
 }
 
@@ -44,14 +44,14 @@ sub _create_pattern {
 sub get_triples {
 	my $self = shift;
 	my $pattern = $self->_create_pattern(@_);
+	my $ua = $self->ua->clone;
+	$ua->default_headers->header( 'Accept' => Attean->acceptable_parsers);
 	return $self->get_sparql("CONSTRUCT WHERE {\n\t".$pattern->tuples_string."\n}");
 }
 
 sub count_triples {
 	my $self = shift;
 	my $pattern = $self->_create_pattern(@_);
-	my $ua = $self->ua->clone;
-	$ua->default_headers->header( 'Accept' => 'application/sparql-results+json;q=1,application/sparql-results+xml;q=0.9');
 	my $iter = $self->get_sparql("SELECT (count(*) AS ?count) WHERE {\n\t".$pattern->tuples_string."\n}");
 	return $iter->next->value('count')->value;
 }
