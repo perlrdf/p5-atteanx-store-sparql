@@ -3,6 +3,7 @@ use Test::Modern;
 use Attean;
 use Attean::RDF;
 use AtteanX::Store::SPARQL::Plan::Triple;
+use Data::Dumper;
 
 package TestPlanner {
 	use Moo;
@@ -35,7 +36,7 @@ my $u		= triple(variable('s'), iri('p'), variable('o'));
 my $v		= triple(variable('s'), iri('q'), blank('xyz'));
 my $w		= triple(variable('a'), iri('b'), iri('c'));
 
-subtest '1-triple BGP single variable' => sub {
+subtest '1-triple BGP two variables' => sub {
 	my $bgp		= Attean::Algebra::BGP->new(triples => [$u]);
 	my $plan	= $p->plan_for_algebra($bgp, $model, [iri('test')]);
 	does_ok($plan, 'Attean::API::Plan', '1-triple BGP');
@@ -49,5 +50,23 @@ subtest '1-triple BGP single variable' => sub {
 
 };
 
+subtest '3-triple BGP two variables' => sub {
+	my $bgp		= Attean::Algebra::BGP->new(triples => [$u, $t, $v]);
+#	foreach my $plan ($p->plans_for_algebra($bgp, $model, [iri('test')])){
+#		warn $plan->plan_as_string;
+#	}
+	my $plan	= $p->plan_for_algebra($bgp, $model, [iri('test')]);
+#	die Dumper($plan);
+	does_ok($plan, 'Attean::API::Plan', '1-triple BGP');
+	isa_ok($plan, 'Attean::Plan::NestedLoopJoin');
+	warn $plan->plan_as_string;
+	is($plan->plan_as_string, 'SPARQLTriple { ?s, <p>, ?o }', 'as_string gives the correct string');
+# TODO: {
+#		local $TODO = 'Not the correct iterator yet';
+#	my $it = $plan->impl($model);
+#	is(ref($it), 'CODE');
+#	}
+
+};
 
 done_testing;
