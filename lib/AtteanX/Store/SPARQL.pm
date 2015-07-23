@@ -14,11 +14,13 @@ use Types::Standard qw(InstanceOf);
 use Scalar::Util qw(blessed);
 use Attean;
 use Attean::RDF;
+use AtteanX::Store::SPARQL::Plan::BGP;
 use LWP::UserAgent;
 use Data::Dumper;
 use Carp;
 
 with 'Attean::API::TripleStore';
+with 'Attean::API::CostPlanner';
 
 has 'endpoint_url' => (is => 'ro', isa => Uri, coerce => 1);
 has 'ua' => (is => 'rw', isa => InstanceOf['LWP::UserAgent'], builder => '_build_ua');
@@ -80,6 +82,24 @@ sub get_sparql {
 	}
 }
 
+sub plans_for_algebra {
+	my $self	= shift;
+	my $algebra	= shift;
+	my @args	= @_;
+
+	if ($algebra->isa('Attean::Algebra::BGP')) {
+		return AtteanX::Store::SPARQL::Plan::BGP->new(algebra => $algebra,
+																	 in_scope_variables => [$algebra->in_scope_variables],
+																	 distinct => 0); # TODO: Fix
+	}
+	return;
+}
+
+sub cost_for_plan {
+	my $self	= shift;
+	my $plan	= shift;
+	return; #TODO for now
+}
 
 1;
 
