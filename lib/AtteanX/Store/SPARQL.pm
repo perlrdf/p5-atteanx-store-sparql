@@ -85,7 +85,6 @@ sub get_sparql {
 sub plans_for_algebra {
 	my $self	= shift;
 	my $algebra	= shift;
-	my @args	= @_;
 
 	if ($algebra->isa('Attean::Algebra::BGP') && scalar $algebra->elements > 1) {
 		return AtteanX::Store::SPARQL::Plan::BGP->new(algebra => $algebra,
