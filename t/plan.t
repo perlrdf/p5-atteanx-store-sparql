@@ -41,7 +41,7 @@ subtest '1-triple BGP two variables' => sub {
 	my $plan	= $p->plan_for_algebra($bgp, $model, [iri('test')]);
 	does_ok($plan, 'Attean::API::Plan', '1-triple BGP');
 	isa_ok($plan, 'AtteanX::Store::SPARQL::Plan::Triple');
-	is($plan->plan_as_string, 'SPARQLTriple { ?s, <p>, ?o }', 'as_string gives the correct string');
+	is($plan->plan_as_string, 'SPARQLTriple { ?s, <p>, ?o }', 'plan_as_string gives the correct string');
 # TODO: {
 #		local $TODO = 'Not the correct iterator yet';
 #	my $it = $plan->impl($model);
@@ -52,15 +52,18 @@ subtest '1-triple BGP two variables' => sub {
 
 subtest '3-triple BGP two variables' => sub {
 	my $bgp		= Attean::Algebra::BGP->new(triples => [$u, $t, $v]);
-#	foreach my $plan ($p->plans_for_algebra($bgp, $model, [iri('test')])){
-#		warn $plan->plan_as_string;
-#	}
+	is(scalar $p->plans_for_algebra($bgp, $model, [iri('test')]), 5, "Five different plans");
 	my $plan	= $p->plan_for_algebra($bgp, $model, [iri('test')]);
 #	die Dumper($plan);
-	does_ok($plan, 'Attean::API::Plan', '1-triple BGP');
+	does_ok($plan, 'Attean::API::Plan', '3-triple BGP');
 	isa_ok($plan, 'Attean::Plan::NestedLoopJoin');
-	warn $plan->plan_as_string;
-	is($plan->plan_as_string, 'SPARQLTriple { ?s, <p>, ?o }', 'as_string gives the correct string');
+	my $sp = $plan->as_string;
+	warn $sp;
+	like($sp, qr/SPARQLTriple/, 'SPARQLTriple is in there');
+	like($sp, qr/SPARQLTriple.+SPARQLTriple.+SPARQLTriple/s, 'SPARQLTriple is in there three times');
+	like($sp, qr/NestedLoop.+NestedLoop/s, 'NestedLoop is in there twice');
+	like($sp, qr/SPARQLTriple { \?s, <p>, \?o }/, 'One of the triple patterns are there');
+	is($plan->plan_as_string, 'NestedLoop Join', 'plan_as_string gives the correct string');
 # TODO: {
 #		local $TODO = 'Not the correct iterator yet';
 #	my $it = $plan->impl($model);
