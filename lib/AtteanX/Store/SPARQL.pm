@@ -87,7 +87,7 @@ sub plans_for_algebra {
 	my $algebra	= shift;
 	my @args	= @_;
 
-	if ($algebra->isa('Attean::Algebra::BGP')) {
+	if ($algebra->isa('Attean::Algebra::BGP') && scalar $algebra->elements > 1) {
 		return AtteanX::Store::SPARQL::Plan::BGP->new(algebra => $algebra,
 																	 in_scope_variables => [$algebra->in_scope_variables],
 																	 distinct => 0); # TODO: Fix
