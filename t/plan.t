@@ -1,3 +1,4 @@
+use v5.14;
 use Test::Modern;
 use Attean;
 use Attean::RDF;
@@ -21,14 +22,43 @@ package TestPlanner {
 																		 in_scope_variables => [ map {$_->value} @vars],
 																		 distinct => 0);
 	}
-}
+};
+
+package TestModel {
+	use Moo;
+	use namespace::clean;
+	
+	with 'Attean::API::Model';
+	has 'store' => (
+						 is => 'ro',
+						 does => 'Attean::API::TripleStore',
+						 required => 1,
+						 handles => [qw(get_triples count_triples get_sparql)],
+						);
+
+	sub get_quads {
+		my $self = shift;
+		return $self->get_triples(@_);
+	}
+
+	sub count_quads {
+		my $self = shift;
+		return $self->count_triples(@_);
+	}
+
+	sub get_graphs {
+		return 'nograph';
+	}
+
+};
+
 
 my $p = TestPlanner->new();
 isa_ok($p, 'Attean::IDPQueryPlanner');
 
 my $store	= Attean->get_store('SPARQL')->new('endpoint_url' => iri('http://test.invalid/'));
 isa_ok($store, 'AtteanX::Store::SPARQL');
-my $model	= Attean::QuadModel->new( store => $store );
+my $model	= TestModel->new( store => $store );
 my $t		= triple(variable('s'), iri('p'), literal('1'));
 my $u		= triple(variable('s'), iri('p'), variable('o'));
 my $v		= triple(variable('s'), iri('q'), blank('xyz'));
@@ -39,7 +69,14 @@ subtest '1-triple BGP single variable' => sub {
 	my $plan	= $p->plan_for_algebra($bgp, $model);
 	does_ok($plan, 'Attean::API::Plan', '1-triple BGP');
 	isa_ok($plan, 'AtteanX::Store::SPARQL::Plan::Triple');
-}
+	is($plan->plan_as_string, 'SPARQLTriple { ?s, <p>, ?o }', 'as_string gives the correct string');
+# TODO: {
+#		local $TODO = 'Not the correct iterator yet';
+#	my $it = $plan->impl($model);
+#	is(ref($it), 'CODE');
+#	}
+
+};
 
 
 done_testing;
