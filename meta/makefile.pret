@@ -3,7 +3,7 @@
 @prefix : <http://ontologi.es/doap-deps#>.
 
 `AtteanX-Store-SPARQL`
-	:test-requirement       [ :on "Test::More 0.96"^^:CpanId ];
+	:test-requirement       [ :on "Test::Modern"^^:CpanId ];
 	:test-requirement       [ :on "Test::Roo"^^:CpanId ];
 	:test-requirement       [ :on "RDF::Trine"^^:CpanId ];
 	:test-requirement       [ :on "RDF::Endpoint"^^:CpanId ];
