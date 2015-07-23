@@ -54,11 +54,9 @@ subtest '3-triple BGP two variables' => sub {
 	my $bgp		= Attean::Algebra::BGP->new(triples => [$u, $t, $v]);
 	is(scalar $p->plans_for_algebra($bgp, $model, [iri('test')]), 5, "Five different plans");
 	my $plan	= $p->plan_for_algebra($bgp, $model, [iri('test')]);
-#	die Dumper($plan);
 	does_ok($plan, 'Attean::API::Plan', '3-triple BGP');
 	isa_ok($plan, 'Attean::Plan::NestedLoopJoin');
 	my $sp = $plan->as_string;
-	warn $sp;
 	like($sp, qr/SPARQLTriple/, 'SPARQLTriple is in there');
 	like($sp, qr/SPARQLTriple.+SPARQLTriple.+SPARQLTriple/s, 'SPARQLTriple is in there three times');
 	like($sp, qr/NestedLoop.+NestedLoop/s, 'NestedLoop is in there twice');
