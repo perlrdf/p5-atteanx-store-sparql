@@ -42,12 +42,6 @@ subtest '1-triple BGP two variables' => sub {
 	does_ok($plan, 'Attean::API::Plan', '1-triple BGP');
 	isa_ok($plan, 'AtteanX::Store::SPARQL::Plan::Triple');
 	is($plan->plan_as_string, 'SPARQLTriple { ?s, <p>, ?o }', 'plan_as_string gives the correct string');
-# TODO: {
-#		local $TODO = 'Not the correct iterator yet';
-#	my $it = $plan->impl($model);
-#	is(ref($it), 'CODE');
-#	}
-
 };
 
 subtest '3-triple BGP two variables' => sub {
@@ -62,12 +56,6 @@ subtest '3-triple BGP two variables' => sub {
 	like($sp, qr/NestedLoop.+NestedLoop/s, 'NestedLoop is in there twice');
 	like($sp, qr/SPARQLTriple { \?s, <p>, \?o }/, 'One of the triple patterns are there');
 	is($plan->plan_as_string, 'NestedLoop Join', 'plan_as_string gives the correct string');
-# TODO: {
-#		local $TODO = 'Not the correct iterator yet';
-#	my $it = $plan->impl($model);
-#	is(ref($it), 'CODE');
-#	}
-
 };
 
 done_testing;
