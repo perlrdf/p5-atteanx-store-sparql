@@ -32,42 +32,35 @@ Evaluates a quad pattern against the model.
 package AtteanX::Store::SPARQL::Plan::BGP;
 
 use Moo;
-use Types::Standard qw(ConsumerOf ArrayRef);
+use Types::Standard qw(InstanceOf);
 
-has 'triples' => (is => 'ro', isa => ArrayRef[ConsumerOf['Attean::API::TriplePattern']], default => sub { [] });
+has 'algebra' => (is => 'ro', 
+						isa => InstanceOf['Attean::Algebra::BGP'],
+						handles => {
+										_algebra_as_string => 'algebra_as_string',
+										as_sparql => 'as_sparql'
+									  },
+					  );
 
 with 'Attean::API::Plan';
 
 sub plan_as_string {
  	my $self	= shift;
-	my $string = 'SPARQLBGP {';
- 	foreach my $t ($self->triples) {
-		$string .= "\n\t" . $t->tuples_string;
-	}
-	return "$string\n}";
+	return 'SPARQL' . $self->_algebra_as_string;
+}
+
+sub walk {
+	# No-op for this
+}
 
 sub impl {
 	my $self	= shift;
 	my $model	= shift;
-	my $sparql	= 'SELECT * WHERE {';
-	foreach my $t ($self->triples) {
-		$sparql .= "\n\t" . $t->tuples_string
-	}
-	$sparql .= "\n}";
+	my $sparql	= 'SELECT * WHERE ' . $self->as_sparql;
 	return sub {
 		return $model->get_sparql($sparql)
 	}
 }
 
-# sub as_sparql {
-# 	my $self	= shift;
-# 	my %args	= @_;
-# 	my $level	= $args{level} // 0;
-# 	my $sp		= $args{indent} // '    ';
-# 		my $indent	= $sp x $level;
-	
-# 	return "${indent}{\n"
-# 	  . join('', map { $indent . $sp . $_->as_sparql( %args, level => $level+1 ) } @{ $self->triples })
-# 		 . "${indent}}\n";
-# }
 
+1;

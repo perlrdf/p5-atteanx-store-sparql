@@ -14,11 +14,13 @@ use Types::Standard qw(InstanceOf);
 use Scalar::Util qw(blessed);
 use Attean;
 use Attean::RDF;
+use AtteanX::Store::SPARQL::Plan::BGP;
 use LWP::UserAgent;
 use Data::Dumper;
 use Carp;
 
 with 'Attean::API::TripleStore';
+with 'Attean::API::CostPlanner';
 
 has 'endpoint_url' => (is => 'ro', isa => Uri, coerce => 1);
 has 'ua' => (is => 'rw', isa => InstanceOf['LWP::UserAgent'], builder => '_build_ua');
@@ -26,7 +28,7 @@ has 'ua' => (is => 'rw', isa => InstanceOf['LWP::UserAgent'], builder => '_build
 sub _build_ua {
 	my $self = shift;
 	my $ua = LWP::UserAgent->new;
-	$ua->default_headers->push_header( 'Accept' => Attean->acceptable_parsers);
+	$ua->default_headers->push_header( 'Accept' => Attean->acceptable_parsers(handles => q[Attean::API::Result]));
 	return $ua;
 }
 
@@ -44,14 +46,14 @@ sub _create_pattern {
 sub get_triples {
 	my $self = shift;
 	my $pattern = $self->_create_pattern(@_);
+	my $ua = $self->ua->clone;
+	$ua->default_headers->header( 'Accept' => Attean->acceptable_parsers);
 	return $self->get_sparql("CONSTRUCT WHERE {\n\t".$pattern->tuples_string."\n}");
 }
 
 sub count_triples {
 	my $self = shift;
 	my $pattern = $self->_create_pattern(@_);
-	my $ua = $self->ua->clone;
-	$ua->default_headers->header( 'Accept' => 'application/sparql-results+json;q=1,application/sparql-results+xml;q=0.9');
 	my $iter = $self->get_sparql("SELECT (count(*) AS ?count) WHERE {\n\t".$pattern->tuples_string."\n}");
 	return $iter->next->value('count')->value;
 }
@@ -80,6 +82,23 @@ sub get_sparql {
 	}
 }
 
+sub plans_for_algebra {
+	my $self	= shift;
+	my $algebra	= shift;
+
+	if ($algebra->isa('Attean::Algebra::BGP') && scalar $algebra->elements > 1) {
+		return AtteanX::Store::SPARQL::Plan::BGP->new(algebra => $algebra,
+																	 in_scope_variables => [$algebra->in_scope_variables],
+																	 distinct => 0); # TODO: Fix
+	}
+	return;
+}
+
+sub cost_for_plan {
+	my $self	= shift;
+	my $plan	= shift;
+	return; #TODO for now
+}
 
 1;
 

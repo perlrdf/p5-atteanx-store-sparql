@@ -40,6 +40,8 @@ has 'predicate'	=> (is => 'ro', required => 1);
 has 'object'	=> (is => 'ro', required => 1);
 #	has 'graph'		=> (is => 'ro', required => 1);
 
+# TODO: should extend 'Attean::Plan::Quad' to allow IDP to use HSP on it?
+
 with 'Attean::API::Plan', 'Attean::API::NullaryQueryTree';
 with 'Attean::API::TriplePattern';
 
@@ -67,12 +69,13 @@ sub plan_as_string {
 
 sub impl {
 	my $self	= shift;
-	my $model	= shift;
-	my @values	= $self->values;
-	my $tripleiter = $model->get_triples( @values );
+	my $model = shift;
+	my $pattern = Attean::TriplePattern->new($self->values);
+	my $query = "SELECT * WHERE {\n\t".$pattern->tuples_string."\n}";
+	my $store = $model->stores->{'test'}; # TODO: temp hack
 	return sub {
-		
-	}
+		$store->get_sparql($query);
+	};
 }
 
 1;
