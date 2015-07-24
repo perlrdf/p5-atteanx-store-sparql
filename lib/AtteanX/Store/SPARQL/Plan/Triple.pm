@@ -70,10 +70,11 @@ sub plan_as_string {
 sub impl {
 	my $self	= shift;
 	my $model = shift;
-	my $pattern = Attean::TriplePattern($self->values);
+	my $pattern = Attean::TriplePattern->new($self->values);
 	my $query = "SELECT * WHERE {\n\t".$pattern->tuples_string."\n}";
+	my $store = $model->stores->{'test'}; # TODO: temp hack
 	return sub {
-		$model->get_sparql($query);
+		$store->get_sparql($query);
 	};
 }
 
