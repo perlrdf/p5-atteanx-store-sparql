@@ -69,12 +69,12 @@ sub plan_as_string {
 
 sub impl {
 	my $self	= shift;
-	my $model	= shift;
-	my @values	= $self->values;
-	my $tripleiter = $model->get_triples( @values );
+	my $model = shift;
+	my $pattern = Attean::TriplePattern($self->values);
+	my $query = "SELECT * WHERE {\n\t".$pattern->tuples_string."\n}";
 	return sub {
-		
-	}
+		$model->get_sparql($query);
+	};
 }
 
 1;
