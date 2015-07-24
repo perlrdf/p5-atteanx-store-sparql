@@ -40,6 +40,8 @@ has 'predicate'	=> (is => 'ro', required => 1);
 has 'object'	=> (is => 'ro', required => 1);
 #	has 'graph'		=> (is => 'ro', required => 1);
 
+# TODO: should extend 'Attean::Plan::Quad' to allow IDP to use HSP on it?
+
 with 'Attean::API::Plan', 'Attean::API::NullaryQueryTree';
 with 'Attean::API::TriplePattern';
 
