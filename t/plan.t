@@ -4,7 +4,7 @@ use Attean;
 use Attean::RDF;
 use AtteanX::Store::SPARQL::Plan::Triple;
 use Data::Dumper;
-use Carp::Always;
+#use Carp::Always;
 
 package TestPlanner {
 	use Moo;
