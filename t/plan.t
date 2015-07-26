@@ -36,8 +36,30 @@ subtest '3-triple BGP two variables' => sub {
 	my $plan	= $p->plan_for_algebra($bgp, $model, [$graph]);
 	does_ok($plan, 'Attean::API::Plan', '3-triple BGP');
 	isa_ok($plan, 'AtteanX::Store::SPARQL::Plan::BGP');
-	my $sp = $plan->as_string;
-	is($plan->plan_as_string, 'SPARQLBGP { ?s <p> ?o ., ?s <p> "1" ., ?s <q> _:xyz . }', 'plan_as_string gives the correct string');
+	is($plan->plan_as_string, 'SPARQLBGP { Quad { ?s, <p>, ?o, <http://example.org> }, Quad { ?s, <p>, "1", <http://example.org> }, Quad { ?s, <q>, _:xyz, <http://example.org> } }', 'plan_as_string gives the correct string');
+	cmp_deeply(@{$plan->quads}[0]->in_scope_variables, ['s','o'], 'in_scope_variable is correct for first quad');
+	cmp_deeply(@{$plan->quads}[1]->in_scope_variables, ['s'], 'in_scope_variable is correct for second quad');
+};
+
+subtest 'Make sure Quad plans are accepted by the BGP' => sub {
+	my $p1 = Attean::Plan::Quad->new(subject => variable('s'), 
+												predicate => iri('p'), 
+												object => variable('o'), 
+												graph => $graph, 
+												in_scope_variables => ['s','o'],
+												distinct => 0);
+	my $p2 = Attean::Plan::Quad->new(subject => variable('a'), 
+												predicate => iri('b'), 
+												object => iri('c'), 
+												graph => $graph, 
+												in_scope_variables => ['a'],
+												distinct => 0);
+	my $bgpplan = AtteanX::Store::SPARQL::Plan::BGP->new(quads => [$p1,$p2],
+																		  in_scope_variables => ['s','o','a'],
+																		  distinct => 0
+																		 );
+	isa_ok($bgpplan, 'AtteanX::Store::SPARQL::Plan::BGP');
+	does_ok($bgpplan, 'Attean::API::Plan');
 };
 
 done_testing;
