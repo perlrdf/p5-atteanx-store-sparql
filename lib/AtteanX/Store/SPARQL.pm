@@ -33,20 +33,9 @@ sub _build_ua {
 	return $ua;
 }
 
-sub _create_pattern {
-	my $self = shift;
-	my @nodes = (variable('var1'), variable('var2'), variable('var3'));
-	for (my $i=0; $i <= 2; $i++) { # TODO: temporary hack
-		if (blessed($_[$i]) && $_[$i]->does('Attean::API::TermOrVariable')) {
-			$nodes[$i] = $_[$i];
-		}
-	}
-	return Attean::TriplePattern->new(@nodes);
-}
-
 sub get_triples {
 	my $self = shift;
-	my $pattern = $self->_create_pattern(@_);
+	my $pattern = Attean::TriplePattern->new(@_);
 	my $ua = $self->ua->clone;
 	$ua->default_headers->header( 'Accept' => Attean->acceptable_parsers);
 	return $self->get_sparql("CONSTRUCT WHERE {\n\t".$pattern->tuples_string."\n}");
@@ -54,7 +43,7 @@ sub get_triples {
 
 sub count_triples {
 	my $self = shift;
-	my $pattern = $self->_create_pattern(@_);
+	my $pattern = Attean::TriplePattern->new(@_);
 	my $iter = $self->get_sparql("SELECT (count(*) AS ?count) WHERE {\n\t".$pattern->tuples_string."\n}");
 	return $iter->next->value('count')->value;
 }
