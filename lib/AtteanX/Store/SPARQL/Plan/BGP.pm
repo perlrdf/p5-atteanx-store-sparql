@@ -29,7 +29,7 @@ use Moo;
 use Types::Standard qw(ArrayRef ConsumerOf);
 with 'Attean::API::QueryTree';
 
-has 'triples' => (is => 'rw',
+has 'triples' => (is => 'ro',
 						isa => ArrayRef[ConsumerOf['Attean::API::TriplePattern']],
 						default => sub { [] }
 					  );
