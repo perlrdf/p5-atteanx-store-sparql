@@ -16,7 +16,8 @@ has 'store'    => (
 										  get_quads => 'get_triples',
 										  count_quads => 'count_triples',
 										  cost_for_plan => 'cost_for_plan',
-										  get_sparql => 'get_sparql'
+										  get_sparql => 'get_sparql',
+										  plans_for_algebra => 'plans_for_algebra'
 										}
 						);
 
@@ -27,18 +28,6 @@ sub get_graphs {
 	return Attean::ListIterator->new();
 }
 
-
-sub plans_for_algebra {
-	return; # For now, just make access_plan find the plans
-	my $self	= shift;
-	my $algebra	= shift;
-	if ($algebra->isa('Attean::Algebra::BGP') && scalar $algebra->elements > 1) {
-		return AtteanX::Store::SPARQL::Plan::BGP->new(algebra => $algebra,
-																	 in_scope_variables => [$algebra->in_scope_variables],
-																	 distinct => 0); # TODO: Fix
-	}
-	return;
-}
 
 =item C<< get_quads ( $subject, $predicate, $object, $graph ) >>
 
