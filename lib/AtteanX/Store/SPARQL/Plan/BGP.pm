@@ -26,22 +26,19 @@ Evaluates a quad pattern against the model.
 package AtteanX::Store::SPARQL::Plan::BGP;
 
 use Moo;
-use Types::Standard qw(InstanceOf);
+use Types::Standard qw(ArrayRef ConsumerOf);
 with 'Attean::API::QueryTree';
 
-has 'algebra' => (is => 'ro', 
-						isa => InstanceOf['Attean::Algebra::BGP'],
-						handles => {
-										_algebra_as_string => 'algebra_as_string',
-										as_sparql => 'as_sparql'
-									  },
+has 'triples' => (is => 'rw',
+						isa => ArrayRef[ConsumerOf['Attean::API::TriplePattern']],
+						default => sub { [] }
 					  );
 
 with 'Attean::API::Plan';
 
 sub plan_as_string {
  	my $self	= shift;
-	return 'SPARQL' . $self->_algebra_as_string;
+	return 'SPARQLBGP { ' . join(', ', map { $_->as_string } @{ $self->triples }) . ' }';
 }
 
 
@@ -54,5 +51,16 @@ sub impl {
 	}
 }
 
+# TODO: This is cutnpaste from Attean::Algebra::BGP, any way to not do that?
+sub _as_sparql {
+	my $self	= shift;
+	my %args	= @_;
+	my $level	= $args{level} // 0;
+	my $sp		= $args{indent} // '    ';
+	my $indent	= $sp x $level;
+
+	return "${indent}{\n"
+	  . join('', map { $indent . $sp . $_->_as_sparql( %args, level => $level+1 ) } @{ $self->triples }) . "${indent}}\n";
+}
 
 1;
