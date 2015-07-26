@@ -15,12 +15,6 @@ AtteanX::Store::SPARQL::Plan::BGP - Plan for efficient evaluation of SPARQL BGPs
 This plan class implements compiling basic graph patterns that can be
 joined remotely on a SPARQL endpoint.
 
-=over 4
-
-=cut
-
-use Attean::API::Query;
-
 =item * L<Attean::Plan::Quad>
 
 Evaluates a quad pattern against the model.
@@ -33,6 +27,7 @@ package AtteanX::Store::SPARQL::Plan::BGP;
 
 use Moo;
 use Types::Standard qw(InstanceOf);
+with 'Attean::API::QueryTree';
 
 has 'algebra' => (is => 'ro', 
 						isa => InstanceOf['Attean::Algebra::BGP'],
@@ -49,9 +44,6 @@ sub plan_as_string {
 	return 'SPARQL' . $self->_algebra_as_string;
 }
 
-sub walk {
-	# No-op for this
-}
 
 sub impl {
 	my $self	= shift;
