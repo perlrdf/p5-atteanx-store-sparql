@@ -82,16 +82,13 @@ sub plans_for_algebra {
 	if ($algebra->isa('Attean::Algebra::BGP') && scalar $algebra->elements > 1) {
 		my @quads;
 		foreach my $triple (@{$algebra->triples}) {
-			my @vars = map { $_->value } grep { $_->is_variable } $triple->values;
 			push(@quads, Attean::Plan::Quad->new(subject => $triple->subject,
 															 predicate => $triple->predicate,
 															 object => $triple->object,
 															 graph => $active_graphs,
-															 in_scope_variables => \@vars,
 															 distinct => 0));
 			  }
 		return AtteanX::Store::SPARQL::Plan::BGP->new(quads => \@quads,
-																	 in_scope_variables => [$algebra->in_scope_variables],
 																	 distinct => 0); # TODO: Fix
 	}
 	return;

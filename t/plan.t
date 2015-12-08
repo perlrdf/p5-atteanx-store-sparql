@@ -46,16 +46,13 @@ subtest 'Make sure Quad plans are accepted by the BGP' => sub {
 												predicate => iri('p'), 
 												object => variable('o'), 
 												graph => $graph, 
-												in_scope_variables => ['s','o'],
 												distinct => 0);
 	my $p2 = Attean::Plan::Quad->new(subject => variable('a'), 
 												predicate => iri('b'), 
 												object => iri('c'), 
 												graph => $graph, 
-												in_scope_variables => ['a'],
 												distinct => 0);
 	my $bgpplan = AtteanX::Store::SPARQL::Plan::BGP->new(quads => [$p1,$p2],
-																		  in_scope_variables => ['s','o','a'],
 																		  distinct => 0
 																		 );
 	isa_ok($bgpplan, 'AtteanX::Store::SPARQL::Plan::BGP');
