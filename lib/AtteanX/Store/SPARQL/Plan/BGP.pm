@@ -34,7 +34,11 @@ has 'quads' => (is => 'ro',
 					 required => 1
 					);
 
-with 'Attean::API::Plan';
+sub children {
+	return $_[0]->quads;
+}
+
+with 'Attean::API::Plan','Attean::API::UnionScopeVariablesPlan';
 
 sub plan_as_string {
  	my $self	= shift;
