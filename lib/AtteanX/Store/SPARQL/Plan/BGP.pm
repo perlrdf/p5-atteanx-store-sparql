@@ -27,18 +27,9 @@ package AtteanX::Store::SPARQL::Plan::BGP;
 
 use Moo;
 use Types::Standard qw(ArrayRef InstanceOf);
-with 'Attean::API::QueryTree';
-
-has 'quads' => (is => 'ro',
-					 isa => ArrayRef[InstanceOf['Attean::Plan::Quad']],
-					 required => 1
-					);
-
-sub children {
-	return $_[0]->quads;
-}
-
-with 'Attean::API::Plan','Attean::API::UnionScopeVariablesPlan';
+with 'Attean::API::QueryTree',
+     'Attean::API::Plan',
+     'Attean::API::UnionScopeVariablesPlan';
 
 sub plan_as_string {
  	my $self	= shift;
