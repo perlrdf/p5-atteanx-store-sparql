@@ -88,7 +88,7 @@ sub plans_for_algebra {
 															 graph => $active_graphs,
 															 distinct => 0));
 			  }
-		return AtteanX::Store::SPARQL::Plan::BGP->new(quads => \@quads,
+		return AtteanX::Store::SPARQL::Plan::BGP->new(children => \@quads,
 																	 distinct => 0); # TODO: Fix
 	}
 	return;
