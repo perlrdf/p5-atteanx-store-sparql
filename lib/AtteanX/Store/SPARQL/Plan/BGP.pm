@@ -42,7 +42,7 @@ with 'Attean::API::Plan','Attean::API::UnionScopeVariablesPlan';
 
 sub plan_as_string {
  	my $self	= shift;
-	return 'SPARQLBGP { ' . join(', ', map { $_->plan_as_string } @{ $self->quads }) . ' }';
+	return 'SPARQLBGP';
 }
 
 
