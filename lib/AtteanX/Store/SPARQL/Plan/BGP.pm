@@ -36,6 +36,23 @@ sub plan_as_string {
 	return 'SPARQLBGP';
 }
 
+sub cost {
+	my $self = shift;
+	my @kids = @{ $self->children };
+	my $base = 10 * scalar @kids;
+	my $result = $base;
+	my %quads_with_joins;
+	foreach my $kid (@kids) {
+		my @vars	= @{ $kid->in_scope_variables };
+		foreach my $v (@vars) {
+			$quads_with_joins{$v}++;
+		}
+	}
+	foreach my $sub (values(%quads_with_joins)) {
+		$result -= ($sub - 1)
+	}
+	return $result;
+}
 
 sub impl {
 	my $self	= shift;
