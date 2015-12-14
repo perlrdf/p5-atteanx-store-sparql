@@ -35,8 +35,8 @@ subtest 'Compare 1-triple BGPs with cartesian' => sub {
 																		 );
 	isa_ok($bgpplan, 'AtteanX::Store::SPARQL::Plan::BGP');
 	does_ok($bgpplan, 'Attean::API::Plan');
-	is($bgpplan->cost, 30, 'Cost for BGP is OK');
-	ok($bgpplan->has_cost, 'Predicate can be used');
+	is($bgpplan->cost, 1000, 'Cost for BGP is OK');
+#	ok($bgpplan->has_cost, 'Predicate can be used');
 
 	my $tplan1 = AtteanX::Store::SPARQL::Plan::BGP->new(children => [$p1],
 																		 distinct => 0

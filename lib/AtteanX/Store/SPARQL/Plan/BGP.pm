@@ -39,19 +39,39 @@ sub plan_as_string {
 sub cost {
 	my $self = shift;
 	my @kids = @{ $self->children };
-	my $base = 10 * scalar @kids;
-	my $result = $base;
-	my %quads_with_joins;
+	my $nokids = scalar @kids;
+	my $result = 10 * $nokids;
+	my %variables_in_quads;
+	my $i = 0;
 	foreach my $kid (@kids) {
 		my @vars	= @{ $kid->in_scope_variables };
 		foreach my $v (@vars) {
-			$quads_with_joins{$v}++;
+			push(@{$variables_in_quads{$v}}, $i);
 		}
+		$i++;
 	}
-	foreach my $sub (values(%quads_with_joins)) {
-		$result -= ($sub - 1)
+	my %quads_with_joins;
+	my $maxcommon = 0;
+	foreach my $quads (values(%variables_in_quads)) {
+		my $count = scalar @{$quads};
+		$result -= ($count - 1); # Lower the cost slightly for each shared variable
+		if ($count > 1) {
+			foreach my $quadno (@{$quads}) {
+				$quads_with_joins{$quadno} = 1; # The keys should now be an array with all quads that share a variable
+			}
+		}
+		$maxcommon = $count if ($maxcommon < $count);
 	}
-	return $result;
+	return $result if $maxcommon == $nokids; # as many shared variables as quads
+	my @quads_with_joins = sort keys %quads_with_joins;
+	return 50 * $result unless (@quads_with_joins);
+	# Now look for cartesians
+	my $cartesian = 1; # 1 means no cartesians, provide factor below if it is
+	for (my $j = 0; $j <= $nokids; $j++) {
+		$cartesian = 50 if ($j != $quads_with_joins[$j]);
+		last;
+	}
+	return $result * $cartesian;
 }
 
 sub impl {
