@@ -27,6 +27,16 @@ my $p4 = Attean::Plan::Quad->new(subject => variable('o2'),
 											object => variable('o3'), 
 											graph => $graph, 
 											distinct => 0);
+my $p5 = Attean::Plan::Quad->new(subject => variable('s'), 
+											predicate => iri('p2'), 
+											object => literal('o2'), 
+											graph => $graph, 
+											distinct => 0);
+my $p6 = Attean::Plan::Quad->new(subject => iri('s2'), 
+											predicate => variable('o3'), 
+											object => literal('o4'), 
+											graph => $graph, 
+											distinct => 0);
 
 
 subtest 'Compare 1-triple BGPs with cartesian' => sub {
@@ -70,6 +80,33 @@ subtest '4-triple BGPs with cartesian' => sub {
 	isa_ok($bgpplan, 'AtteanX::Store::SPARQL::Plan::BGP');
 	does_ok($bgpplan, 'Attean::API::Plan');
 	is($bgpplan->cost, 1900, 'Cost for BGP is OK');
+};
+
+subtest '4-triple BGPs without cartesian, messy ordering' => sub {
+	my $bgpplan = AtteanX::Store::SPARQL::Plan::BGP->new(children => [$p1,$p4,$p3,$p5],
+																		  distinct => 0
+																		 );
+	isa_ok($bgpplan, 'AtteanX::Store::SPARQL::Plan::BGP');
+	does_ok($bgpplan, 'Attean::API::Plan');
+	is($bgpplan->cost, 37, 'Cost for BGP is OK');
+};
+
+subtest '5-triple BGPs without cartesian, messy ordering, predicate variable' => sub {
+	my $bgpplan = AtteanX::Store::SPARQL::Plan::BGP->new(children => [$p1,$p4,$p3,$p5,$p6],
+																		  distinct => 0
+																		 );
+	isa_ok($bgpplan, 'AtteanX::Store::SPARQL::Plan::BGP');
+	does_ok($bgpplan, 'Attean::API::Plan');
+	is($bgpplan->cost, 46, 'Cost for BGP is OK');
+};
+
+subtest '6-triple BGPs with cartesian, messy ordering, predicate variable' => sub {
+	my $bgpplan = AtteanX::Store::SPARQL::Plan::BGP->new(children => [$p1,$p4,$p3,$p5,$p2,$p6],
+																		  distinct => 0
+																		 );
+	isa_ok($bgpplan, 'AtteanX::Store::SPARQL::Plan::BGP');
+	does_ok($bgpplan, 'Attean::API::Plan');
+	is($bgpplan->cost, 2800, 'Cost for BGP is OK');
 };
 
 
