@@ -74,6 +74,8 @@ sub cost {
 	return $result * $cartesian;
 }
 
+sub has_cost { return 1 }
+
 sub impl {
 	my $self	= shift;
 	my $model	= shift;
