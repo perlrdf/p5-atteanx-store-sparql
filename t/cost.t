@@ -63,5 +63,15 @@ subtest '3-triple BGPs without cartesian' => sub {
 	is($bgpplan->cost, 28, 'Cost for BGP is OK');
 };
 
+subtest '4-triple BGPs with cartesian' => sub {
+	my $bgpplan = AtteanX::Store::SPARQL::Plan::BGP->new(children => [$p1,$p3,$p2,$p4],
+																		  distinct => 0
+																		 );
+	isa_ok($bgpplan, 'AtteanX::Store::SPARQL::Plan::BGP');
+	does_ok($bgpplan, 'Attean::API::Plan');
+	is($bgpplan->cost, 1400, 'Cost for BGP is OK');
+};
+
+
 
 done_testing;
