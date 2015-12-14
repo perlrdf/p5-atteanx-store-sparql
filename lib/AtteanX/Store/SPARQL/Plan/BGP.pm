@@ -37,6 +37,8 @@ sub plan_as_string {
 }
 
 sub cost {
+	# This code is admittedly not very pretty. Advices on how to
+	# simplify are welcome, pull requests even more so
 	my $self = shift;
 	my @kids = @{ $self->children };
 	my $nokids = scalar @kids;
@@ -44,6 +46,7 @@ sub cost {
 	my %variables_in_quads;
 	my $i = 0;
 	foreach my $kid (@kids) {
+		# First create a hash with which quads have which variables
 		my @vars	= @{ $kid->in_scope_variables };
 		foreach my $v (@vars) {
 			push(@{$variables_in_quads{$v}}, $i);
