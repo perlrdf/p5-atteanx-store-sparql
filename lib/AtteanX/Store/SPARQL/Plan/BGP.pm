@@ -67,9 +67,11 @@ sub cost {
 	return 50 * $result unless (@quads_with_joins);
 	# Now look for cartesians
 	my $cartesian = 1; # 1 means no cartesians, provide factor below if it is
-	for (my $j = 0; $j <= $nokids; $j++) {
-		$cartesian = 50 if ($j != $quads_with_joins[$j]);
-		last;
+	for (my $j = 0; $j < $nokids; $j++) {
+		if ($j != $quads_with_joins[$j]) {
+			$cartesian = 50;
+			last;
+		}
 	}
 	return $result * $cartesian;
 }

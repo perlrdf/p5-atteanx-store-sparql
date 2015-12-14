@@ -69,7 +69,7 @@ subtest '4-triple BGPs with cartesian' => sub {
 																		 );
 	isa_ok($bgpplan, 'AtteanX::Store::SPARQL::Plan::BGP');
 	does_ok($bgpplan, 'Attean::API::Plan');
-	is($bgpplan->cost, 1400, 'Cost for BGP is OK');
+	is($bgpplan->cost, 1900, 'Cost for BGP is OK');
 };
 
 
