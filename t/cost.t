@@ -66,24 +66,6 @@ subtest 'Compare 1-triple BGPs with cartesian' => sub {
 	is($tplan2->cost, AtteanX::Store::SPARQL::Plan::BGP::_cost_for_children(1), 'Cost for triple 2 is OK');
 	my $bgpplancost = $bgpplan->cost;
 	ok($tplan1->cost + $tplan2->cost < $bgpplancost, 'Cost for individual triples is lower than BGP');
-
-	my $njplan = Attean::Plan::NestedLoopJoin->new(children => [$tplan1, $tplan2],
-																  distinct => 0,
-																  join_variables => []
-																 );
-	does_ok($njplan, 'Attean::API::Plan::Join');
-	my $hjplan = Attean::Plan::HashJoin->new(children => [$tplan1, $tplan2],
-														  distinct => 0,
-														  join_variables => []
-														 );
-	does_ok($hjplan, 'Attean::API::Plan::Join');
-	
- SKIP: {
-		skip 'Join plans have no cost cached', 1 unless $njplan->has_cost && $hjplan->has_cost;
-		
-		ok(($njplan->cost  < $bgpplan->cost) or 
-			($hjplan->cost < $bgpplan->cost), 'Cost for joining local SPARQL BGPs is lower than doing it remotely');
-	};
 };
 
 subtest '3-triple BGPs without cartesian' => sub {
