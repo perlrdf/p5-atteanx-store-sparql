@@ -72,6 +72,7 @@ sub cost {
 	return $result if $maxcommon == $nokids; # as many shared variables as quads
 	my @quads_with_joins = sort keys %quads_with_joins;
 	return 50 * $result unless (@quads_with_joins);
+	return 50 * $result if scalar @quads_with_joins < $nokids;
 	# Now look for cartesians
 	my $cartesian = 1; # 1 means no cartesians, provide factor below if it is
 	for (my $j = 0; $j < $nokids; $j++) {
