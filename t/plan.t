@@ -52,11 +52,25 @@ subtest 'Make sure Quad plans are accepted by the BGP' => sub {
 												object => iri('c'), 
 												graph => $graph, 
 												distinct => 0);
+	my $p3 = Attean::Plan::Quad->new(subject => variable('s'), 
+												predicate => iri('p2'), 
+												object => literal('o'), 
+												graph => $graph, 
+												distinct => 0);
 	my $bgpplan = AtteanX::Store::SPARQL::Plan::BGP->new(children => [$p1,$p2],
 																		  distinct => 0
 																		 );
 	isa_ok($bgpplan, 'AtteanX::Store::SPARQL::Plan::BGP');
 	does_ok($bgpplan, 'Attean::API::Plan');
+	is(scalar @{$bgpplan->children}, 2, 'Has two kids');
+
+	$bgpplan->add_children($p3);
+	isa_ok($bgpplan, 'AtteanX::Store::SPARQL::Plan::BGP', 'Still a BGP');
+	is(scalar @{$bgpplan->children}, 3, 'Has three kids');
+	foreach my $plan (@{$bgpplan->children}) {
+		isa_ok($plan, 'Attean::Plan::Quad', 'Plans are quads');
+	}
+
 };
 
 done_testing;

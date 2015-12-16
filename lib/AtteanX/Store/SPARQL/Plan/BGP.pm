@@ -30,6 +30,11 @@ with 'Attean::API::QueryTree',
      'Attean::API::Plan',
      'Attean::API::UnionScopeVariablesPlan';
 
+sub add_children {
+	my $self = shift;
+	push(@{$self->children}, @_);
+}
+
 sub plan_as_string {
  	my $self	= shift;
 	return 'SPARQLBGP';
