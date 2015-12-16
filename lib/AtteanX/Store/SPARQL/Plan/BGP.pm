@@ -42,7 +42,7 @@ sub cost {
 	my $self = shift;
 	my @kids = @{ $self->children };
 	my $nokids = scalar @kids;
-	my $result = 10 * $nokids;
+	my $result = _cost_for_children($nokids);
 	my %variables_in_quads;
 	my $i = 0;
 	foreach my $kid (@kids) {
@@ -81,6 +81,11 @@ sub cost {
 
 sub has_cost { return 1 }
 
+# A function to estimate a cost of just the number of children
+sub _cost_for_children  {
+	my $nokids = shift;
+	return int(60 + 50*exp(-$nokids/5))
+}
 sub impl {
 	my $self	= shift;
 	my $model	= shift;
