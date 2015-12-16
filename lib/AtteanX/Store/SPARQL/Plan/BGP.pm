@@ -26,7 +26,6 @@ Evaluates a quad pattern against the model.
 package AtteanX::Store::SPARQL::Plan::BGP;
 
 use Moo;
-use Types::Standard qw(ArrayRef InstanceOf);
 with 'Attean::API::QueryTree',
      'Attean::API::Plan',
      'Attean::API::UnionScopeVariablesPlan';
