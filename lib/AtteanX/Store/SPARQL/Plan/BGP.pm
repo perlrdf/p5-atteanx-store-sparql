@@ -26,9 +26,11 @@ Evaluates a quad pattern against the model.
 package AtteanX::Store::SPARQL::Plan::BGP;
 
 use Moo;
+use Data::Dumper;
 with 'Attean::API::QueryTree',
      'Attean::API::Plan',
-     'Attean::API::UnionScopeVariablesPlan';
+     'Attean::API::UnionScopeVariablesPlan',
+     'MooX::Log::Any';
 
 sub add_children {
 	my $self = shift;
@@ -59,6 +61,7 @@ sub cost {
 	}
 	my %quads_with_joins;
 	my $maxcommon = 0;
+	$self->log->trace('Variables with indices that occur in quads: ' . Dumper(\%quads_with_joins));
 	foreach my $quads (values(%variables_in_quads)) {
 		my $count = scalar @{$quads};
 		$result -= ($count - 1); # Lower the cost slightly for each shared variable
@@ -95,6 +98,7 @@ sub impl {
 	my $self	= shift;
 	my $model	= shift;
 	my $sparql	= 'SELECT * WHERE ' . $self->as_sparql;
+	$self->log->debug("Using query:\n$sparql");
 	return sub {
 		return $model->get_sparql($sparql)
 	}

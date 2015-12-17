@@ -17,6 +17,7 @@
         :runtime-requirement    [ :on "Scalar::Util"^^:CpanId ];
         :runtime-requirement    [ :on "perl 5.014"^^:CpanId ] ;
         :runtime-requirement    [ :on "Carp"^^:CpanId ] ;
+        :runtime-requirement    [ :on "MooX::Log::Any"^^:CpanId ] ;
         :runtime-requirement    [ :on "Data::Dumper"^^:CpanId ] ;
 	:develop-recommendation [ :on "Dist::Inkt 0.001"^^:CpanId ];
 	.
