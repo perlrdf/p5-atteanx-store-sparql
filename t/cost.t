@@ -4,6 +4,8 @@ use Attean;
 use Attean::RDF;
 use Attean::Plan::Quad;
 use AtteanX::Store::SPARQL::Plan::BGP;
+use Log::Any::Adapter;
+Log::Any::Adapter->set($ENV{LOG_ADAPTER} || 'Stderr');
 
 my $graph = iri('http://example.org');
 
