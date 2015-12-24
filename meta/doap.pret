@@ -1,11 +1,13 @@
 # This file contains general metadata about the project.
 
 @prefix : <http://usefulinc.com/ns/doap#>.
+@prefix dc:   <http://purl.org/dc/terms/> .
 @prefix prov: <http://www.w3.org/ns/prov#>.
 
 `AtteanX-Store-SPARQL`
 	:programming-language "Perl" ;
 	:shortdesc            "Attean SPARQL store";
+        dc:identifier "AtteanX::Store::SPARQL"^^<http://ontologi.es/doap-deps#CpanId> ;    
 	:homepage             <https://metacpan.org/release/AtteanX-Store-SPARQL>;
 	:download-page        <https://metacpan.org/release/AtteanX-Store-SPARQL>;
 	:bug-database         <https://github.com/kjetilk/p5-atteanx-store-sparql/issues>;
