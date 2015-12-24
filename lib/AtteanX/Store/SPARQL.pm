@@ -22,6 +22,7 @@ use Carp;
 
 with 'Attean::API::TripleStore';
 with 'Attean::API::CostPlanner';
+with 'MooX::Log::Any';
 
 has 'endpoint_url' => (is => 'ro', isa => Uri, coerce => 1);
 has 'ua' => (is => 'rw', isa => InstanceOf['LWP::UserAgent'], builder => '_build_ua');
@@ -52,12 +53,12 @@ sub get_sparql {
 	my $self = shift;
 	my $sparql = shift;
 	my $ua = shift || $self->ua;
-# 	warn $sparql;
 
 	my $url = $self->endpoint_url->clone;
 	my %query = $url->query_form;
 	$query{'query'} = $sparql;
 	$url->query_form(%query);
+	$self->log->debug('Sending GET request for URL: ' . $url);
 	my $response	= $ua->get( $url );
 	if ($response->is_success) {
 		my $parsertype = Attean->get_parser( media_type => $response->content_type);
@@ -65,9 +66,7 @@ sub get_sparql {
 		my $p = $parsertype->new;
 		return $p->parse_iter_from_bytes($response->decoded_content);
 	} else {
-#		warn "url: $url\n";
-#		warn $sparql;
-		warn Dumper($response);
+		$self->log->trace('Got an error, dumping the response: ' . Dumper($response));
 		croak 'Error making remote SPARQL call to endpoint ' . $self->endpoint_url->as_string . ' (' .$response->status_line. ')';
 	}
 }
