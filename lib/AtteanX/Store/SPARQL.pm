@@ -117,9 +117,9 @@ AtteanX::Store::SPARQL - Attean SPARQL store
 
 =head1 DESCRIPTION
 
-This implements a simplistic (for now) immutable triple store, which
-simply allows programmers to use L<Attean> facilities to query remote
-SPARQL endpoints.
+This implements a simple immutable triple store, which simply allows
+programmers to use L<Attean> facilities to query remote SPARQL
+endpoints.
 
 =head2 Attributes and methods
 
