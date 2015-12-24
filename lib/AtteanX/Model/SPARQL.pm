@@ -5,7 +5,6 @@ use warnings;
 
 use Moo;
 use Types::Standard qw(InstanceOf);
-use Scalar::Util qw(reftype);
 use namespace::clean;
 
 has 'store'    => (
