@@ -1,8 +1,9 @@
+package AtteanX::Store::SPARQL;
+
 use v5.14;
 use strict;
 use warnings;
 
-package AtteanX::Store::SPARQL;
 
 our $AUTHORITY = 'cpan:KJETILK';
 our $VERSION   = '0.001';

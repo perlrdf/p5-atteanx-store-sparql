@@ -1,6 +1,3 @@
-use v5.14;
-use warnings;
-
 =head1 NAME
 
 AtteanX::Store::SPARQL::Plan::BGP - Plan for efficient evaluation of SPARQL BGPs on remote endpoints
@@ -47,6 +44,9 @@ For author, copyright and other details, see L<AtteanX::Store::SPARQL>.
 
 
 package AtteanX::Store::SPARQL::Plan::BGP;
+
+use v5.14;
+use warnings;
 
 use Moo;
 use Data::Dumper;

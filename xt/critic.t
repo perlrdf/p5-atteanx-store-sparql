@@ -1,8 +1,8 @@
 use Test::Perl::Critic(-exclude => [
 												'RequireFinalReturn',
+												'RequireArgUnpacking',
+                                    'ProhibitVersionStrings',
 											   'ProhibitUnusedPrivateSubroutines',
-											   'RequireExtendedFormatting',
-											   'ProhibitExcessComplexity',
 											  ],
 							  -severity => 3);
 all_critic_ok();
