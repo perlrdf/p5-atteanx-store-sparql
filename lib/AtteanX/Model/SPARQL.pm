@@ -28,19 +28,36 @@ sub get_graphs {
 	return Attean::ListIterator->new();
 }
 
+1;
 
-=item C<< get_quads ( $subject, $predicate, $object, $graph ) >>
+__END__
 
-Returns an L<Attean::API::Iterator> for quads in the model that match the
-supplied C<< $subject >>, C<< $predicate >>, C<< $object >>, and C<< $graph >>.
-Any of these terms may be undefined or a L<Attean::API::Variable> object, in
-which case that term will be considered as a wildcard for the purposes of
-matching.
+=pod
 
-The returned iterator conforms to both L<Attean::API::Iterator> and
-L<Attean::API::QuadIterator>.
+=encoding utf-8
+
+=head1 NAME
+
+AtteanX::Model::SPARQL - Attean SPARQL Model
+
+=head1 SYNOPSIS
+
+  my $store = Attean->get_store('SPARQL')->new(endpoint_url => $url);
+  my $model = AtteanX::Model::SPARQL->new( store => $store );
+
+=head1 DESCRIPTION
+
+This model is in practice a thin wrapper around the underlying SPARQL
+store, that adds facilities only to allow quering and planning with
+quad semantics.
+
+It consumes L<Attean::API::Model> and L<Attean::API::CostPlanner> and
+adds no new methods or attributes.
+
+=head1 OTHER DETAILS
+
+For author, copyright and other details, see L<AtteanX::Store::SPARQL>.
+
 
 =cut
 
-
-1;
