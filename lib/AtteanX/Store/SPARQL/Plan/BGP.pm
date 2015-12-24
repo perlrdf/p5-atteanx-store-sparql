@@ -56,7 +56,7 @@ with 'Attean::API::QueryTree',
      'MooX::Log::Any';
 
 sub plan_as_string {
- 	my $self	= shift;
+ 	my $self = shift;
 	return 'SPARQLBGP';
 }
 
@@ -71,7 +71,7 @@ sub cost {
 	my $i = 0;
 	foreach my $kid (@kids) {
 		# First create a hash with which quads have which variables
-		my @vars	= @{ $kid->in_scope_variables };
+		my @vars = @{ $kid->in_scope_variables };
 		foreach my $v (@vars) {
 			push(@{$variables_in_quads{$v}}, $i);
 		}
@@ -113,9 +113,9 @@ sub _cost_for_children  {
 	return int(60 + 50*exp(-$nokids/5))
 }
 sub impl {
-	my $self	= shift;
-	my $model	= shift;
-	my $sparql	= 'SELECT * WHERE ' . $self->as_sparql;
+	my $self = shift;
+	my $model = shift;
+	my $sparql = 'SELECT * WHERE ' . $self->as_sparql;
 	$self->log->debug("Using query:\n$sparql");
 	return sub {
 		return $model->get_sparql($sparql)
@@ -124,11 +124,11 @@ sub impl {
 
 # TODO: This is cutnpaste from Attean::Algebra::BGP, any way to not do that?
 sub _as_sparql {
-	my $self	= shift;
-	my %args	= @_;
-	my $level	= $args{level} // 0;
-	my $sp		= $args{indent} // '    ';
-	my $indent	= $sp x $level;
+	my $self = shift;
+	my %args = @_;
+	my $level = $args{level} // 0;
+	my $sp = $args{indent} // '    ';
+	my $indent = $sp x $level;
 
 	return "${indent}{\n"
 	  . join('', map { $indent . $sp . $_->_as_sparql( %args, level => $level+1 ) } @{ $self->quads }) . "${indent}}\n";

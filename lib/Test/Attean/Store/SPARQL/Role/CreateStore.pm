@@ -10,8 +10,8 @@ use Moo::Role;
 
 sub create_store {
 	my $self = shift;
-	my %args        = @_;
-	my $triples       = $args{triples} // [];
+	my %args = @_;
+	my $triples = $args{triples} // [];
 	my $model = RDF::Trine::Model->temporary_model; # For creating endpoint
 	foreach my $atteantriple (@{$triples}) {
 		my $s = iri($atteantriple->subject->value);
@@ -34,9 +34,9 @@ sub create_store {
 	}
 	my $end = RDF::Endpoint->new($model);
 	my $app = sub {
-		my $env 	= shift;
-		my $req 	= Plack::Request->new($env);
-		my $resp	= $end->run( $req );
+		my $env = shift;
+		my $req = Plack::Request->new($env);
+		my $resp = $end->run( $req );
 		return $resp->finalize;
 	};
 	my $useragent = Test::LWP::UserAgent->new;

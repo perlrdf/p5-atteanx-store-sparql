@@ -59,7 +59,7 @@ sub get_sparql {
 	$query{'query'} = $sparql;
 	$url->query_form(%query);
 	$self->log->debug('Sending GET request for URL: ' . $url);
-	my $response	= $ua->get( $url );
+	my $response = $ua->get( $url );
 	if ($response->is_success) {
 		my $parsertype = Attean->get_parser( media_type => $response->content_type);
 		croak 'Could not parse response from '. $self->endpoint_url->as_string . ' which returned ' . $response->content_type unless defined($parsertype);
@@ -72,11 +72,11 @@ sub get_sparql {
 }
 
 sub plans_for_algebra {
-	my $self	= shift;
-	my $algebra	= shift;
-	my $model			= shift;
-	my $active_graphs	= shift;
-	my $default_graphs	= shift;
+	my $self = shift;
+	my $algebra = shift;
+	my $model = shift;
+	my $active_graphs = shift;
+	my $default_graphs = shift;
 
 	if ($algebra->isa('Attean::Algebra::BGP') && scalar $algebra->elements > 1) {
 		my @quads;
@@ -94,8 +94,8 @@ sub plans_for_algebra {
 }
 
 sub cost_for_plan {
-	my $self	= shift;
-	my $plan	= shift;
+	my $self = shift;
+	my $plan = shift;
 	return; #TODO for now
 }
 
