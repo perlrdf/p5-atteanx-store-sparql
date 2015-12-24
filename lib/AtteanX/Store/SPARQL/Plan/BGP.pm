@@ -7,21 +7,44 @@ AtteanX::Store::SPARQL::Plan::BGP - Plan for efficient evaluation of SPARQL BGPs
 
 =head1 SYNOPSIS
 
+This is typically only constructed by planning hacks deep in the code,
+but might look like:
+
   use v5.14;
   use AtteanX::Store::SPARQL::Plan::BGP;
+  my $new_bgp_plan = AtteanX::Store::SPARQL::Plan::BGP->new(children => [$some_quads],
+                                                            distinct => 0,
+                                                            ordered => []);
 
 =head1 DESCRIPTION
 
 This plan class implements compiling basic graph patterns that can be
-joined remotely on a SPARQL endpoint.
+joined remotely on a SPARQL endpoint. It adds a rudimentary cost model
+that also tries to penalize cartesian joins heavily to avoid sending
+them to a remote endpoint.
 
-=item * L<Attean::Plan::Quad>
+=head2 Attributes and methods
 
-Evaluates a quad pattern against the model.
+Consumes L<Attean::API::QueryTree>, L<Attean::API::Plan> and
+L<Attean::API::UnionScopeVariablesPlan>, and introduces nothing
+new. The most notable attribute is:
+
+=over
+
+=item C<< children >>
+
+which takes an arrayref of L<Attean::Plan::Quad> objects to be
+included in the Basic Graph pattern that will be evaluated against the
+model.
 
 =back
 
+=head1 OTHER DETAILS
+
+For author, copyright and other details, see L<AtteanX::Store::SPARQL>.
+
 =cut
+
 
 package AtteanX::Store::SPARQL::Plan::BGP;
 
@@ -112,3 +135,4 @@ sub _as_sparql {
 }
 
 1;
+
