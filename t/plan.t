@@ -64,9 +64,6 @@ subtest 'Make sure Quad plans are accepted by the BGP' => sub {
 	does_ok($bgpplan, 'Attean::API::Plan');
 	is(scalar @{$bgpplan->children}, 2, 'Has two kids');
 
-	$bgpplan->add_children($p3);
-	isa_ok($bgpplan, 'AtteanX::Store::SPARQL::Plan::BGP', 'Still a BGP');
-	is(scalar @{$bgpplan->children}, 3, 'Has three kids');
 	foreach my $plan (@{$bgpplan->children}) {
 		isa_ok($plan, 'Attean::Plan::Quad', 'Plans are quads');
 	}

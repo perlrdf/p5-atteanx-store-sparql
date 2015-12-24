@@ -32,11 +32,6 @@ with 'Attean::API::QueryTree',
      'Attean::API::UnionScopeVariablesPlan',
      'MooX::Log::Any';
 
-sub add_children {
-	my $self = shift;
-	push(@{$self->children}, @_);
-}
-
 sub plan_as_string {
  	my $self	= shift;
 	return 'SPARQLBGP';
