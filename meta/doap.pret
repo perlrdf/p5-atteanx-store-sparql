@@ -18,7 +18,8 @@
 	:created              2015-06-23;
 	:license              <http://dev.perl.org/licenses/>;
 	:maintainer           <http://www.kjetil.kjernsmo.net/foaf#me>;
-	:developer            <http://www.kjetil.kjernsmo.net/foaf#me>.
+        :developer            <http://www.kjetil.kjernsmo.net/foaf#me>;
+        :helper               <http://kasei.us/about/foaf.xrdf#greg>.
 
 <http://dev.perl.org/licenses/>
 	dc:title  "the same terms as the perl 5 programming language system itself".
