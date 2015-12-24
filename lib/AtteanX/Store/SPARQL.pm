@@ -11,7 +11,6 @@ use Moo;
 use Type::Tiny::Role;
 use Types::URI -all;
 use Types::Standard qw(InstanceOf);
-use Scalar::Util qw(blessed);
 use Attean;
 use Attean::RDF;
 use AtteanX::Store::SPARQL::Plan::BGP;
