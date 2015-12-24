@@ -121,6 +121,12 @@ This implements a simple immutable triple store, which simply allows
 programmers to use L<Attean> facilities to query remote SPARQL
 endpoints.
 
+This distribution also brings a corresponding
+L<AtteanX::Model::SPARQL>, which allows query plans to be made, and a
+L<AtteanX::Store::SPARQL::Plan::BGP> plan class, which contains a
+rudimentary cost estimate that attempts to avoid sending Cartesian
+joins to remote endpoints if possible.
+
 =head2 Attributes and methods
 
 =over
