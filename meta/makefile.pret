@@ -9,6 +9,9 @@
 	:test-requirement       [ :on "RDF::Endpoint"^^:CpanId ];
 	:test-requirement       [ :on "Test::LWP::UserAgent 0.027"^^:CpanId ];
 	:test-requirement       [ :on "HTTP::Message::PSGI"^^:CpanId ];
+	:runtime-recommendation [ :on "HTTP::Message::PSGI"^^:CpanId ];
+	:runtime-recommendation [ :on "RDF::Endpoint"^^:CpanId ];
+	:runtime-recommendation [ :on "Test::LWP::UserAgent 0.027"^^:CpanId ];
         :runtime-requirement    [ :on "Moo 1.006000"^^:CpanId ];
         :runtime-requirement    [ :on "Attean 0.010"^^:CpanId ];
         :runtime-requirement    [ :on "Types::Standard"^^:CpanId ];
