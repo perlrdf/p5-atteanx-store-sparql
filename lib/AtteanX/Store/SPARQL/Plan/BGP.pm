@@ -79,7 +79,7 @@ sub cost {
 	}
 	my %quads_with_joins;
 	my $maxcommon = 0;
-	$self->log->trace('Variables with indices that occur in quads: ' . Dumper(\%variables_in_quads));
+	#$self->log->trace('Variables with indices that occur in quads: ' . Dumper(\%variables_in_quads));
 	foreach my $quads (values(%variables_in_quads)) {
 		my $count = scalar @{$quads};
 		$result -= ($count - 1); # Lower the cost slightly for each shared variable
