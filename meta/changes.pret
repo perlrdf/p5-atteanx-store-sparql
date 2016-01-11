@@ -1,6 +1,11 @@
 # This file acts as the project's changelog.
 
+`AtteanX-Store-SPARQL 0.002 cpan:KJETILK`
+	issued  2016-01-11;
+	label   "Simplify cost modelling".
+
 `AtteanX-Store-SPARQL 0.001 cpan:KJETILK`
 	issued  2015-12-24;
 	label   "Initial release".
+
 
