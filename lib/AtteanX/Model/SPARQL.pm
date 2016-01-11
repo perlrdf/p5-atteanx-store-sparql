@@ -14,7 +14,6 @@ has 'store'    => (
 						 handles => { size => 'size' ,
 										  get_quads => 'get_triples',
 										  count_quads => 'count_triples',
-										  cost_for_plan => 'cost_for_plan',
 										  get_sparql => 'get_sparql',
 										  plans_for_algebra => 'plans_for_algebra'
 										}
@@ -22,6 +21,22 @@ has 'store'    => (
 
 
 with 'Attean::API::Model', 'Attean::API::CostPlanner';
+
+sub cost_for_plan {
+	my $self	= shift;
+ 	my $plan	= shift;
+ 	my $planner	= shift;
+	if ($plan->isa('AtteanX::Store::SPARQL::Plan::BGP')) {
+		# BGPs should have a cost proportional to the number of triple patterns,
+		# but be much more costly if they contain a cartesian product.
+		if ($plan->children_are_variable_connected) {
+			return 10 * scalar(@{ $plan->children });
+		} else {
+			return 100 * scalar(@{ $plan->children });
+		}
+	}
+	return;
+}
 
 sub get_graphs {
 	return Attean::ListIterator->new();
