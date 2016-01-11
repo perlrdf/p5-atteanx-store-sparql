@@ -23,9 +23,9 @@ has 'store'    => (
 with 'Attean::API::Model', 'Attean::API::CostPlanner';
 
 sub cost_for_plan {
-	my $self	= shift;
- 	my $plan	= shift;
- 	my $planner	= shift;
+	my $self = shift;
+ 	my $plan = shift;
+ 	my $planner = shift;
 	# TODO: check if the store does something
 	if ($plan->isa('AtteanX::Store::SPARQL::Plan::BGP')) {
 		# BGPs should have a cost proportional to the number of triple patterns,
