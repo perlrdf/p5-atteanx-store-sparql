@@ -177,7 +177,7 @@ Kjetil Kjernsmo E<lt>kjetilk@cpan.orgE<gt>.
 
 =head1 COPYRIGHT AND LICENCE
 
-This software is copyright (c) 2015 by Kjetil Kjernsmo and Gregory
+This software is copyright (c) 2015, 2016 by Kjetil Kjernsmo and Gregory
 Todd Williams.
 
 This is free software; you can redistribute it and/or modify it under
