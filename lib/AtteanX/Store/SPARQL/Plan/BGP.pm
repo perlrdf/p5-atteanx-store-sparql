@@ -16,9 +16,7 @@ but might look like:
 =head1 DESCRIPTION
 
 This plan class implements compiling basic graph patterns that can be
-joined remotely on a SPARQL endpoint. It adds a rudimentary cost model
-that also tries to penalize cartesian joins heavily to avoid sending
-them to a remote endpoint.
+joined remotely on a SPARQL endpoint.
 
 =head2 Attributes and methods
 
