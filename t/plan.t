@@ -18,10 +18,10 @@ my $model	= AtteanX::Model::SPARQL->new( store => $store );
 isa_ok($model, 'AtteanX::Model::SPARQL');
 can_ok($model, 'get_sparql');
 my $graph = iri('http://example.org');
-my $t		= triple(variable('s'), iri('p'), literal('1'));
-my $u		= triple(variable('s'), iri('p'), variable('o'));
-my $v		= triple(variable('s'), iri('q'), blank('xyz'));
-my $w		= triple(variable('a'), iri('b'), iri('c'));
+my $t		= triplepattern(variable('s'), iri('p'), literal('1'));
+my $u		= triplepattern(variable('s'), iri('p'), variable('o'));
+my $v		= triplepattern(variable('s'), iri('q'), blank('xyz'));
+my $w		= triplepattern(variable('a'), iri('b'), iri('c'));
 
 subtest '1-triple BGP two variables' => sub {
 	my $bgp		= Attean::Algebra::BGP->new(triples => [$u]);
