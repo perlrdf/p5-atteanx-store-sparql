@@ -6,7 +6,7 @@ use warnings;
 
 
 our $AUTHORITY = 'cpan:KJETILK';
-our $VERSION   = '0.002';
+our $VERSION   = '0.004';
 
 use Moo;
 use Type::Tiny::Role;
