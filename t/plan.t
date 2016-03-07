@@ -35,7 +35,7 @@ subtest '3-triple BGP two variables' => sub {
 	my $bgp		= Attean::Algebra::BGP->new(triples => [$u, $t, $v]);
 	my $plan	= $p->plan_for_algebra($bgp, $model, [$graph]);
 	does_ok($plan, 'Attean::API::Plan', '3-triple BGP');
-	isa_ok($plan, 'AtteanX::Store::SPARQL::Plan::BGP');
+	isa_ok($plan, 'AtteanX::Plan::SPARQLBGP');
 	like($plan->plan_as_string, qr/^SPARQLBGP/, 'plan_as_string begins with the correct string');
 	cmp_deeply([sort @{@{$plan->children}[0]->in_scope_variables}], ['o','s'], 'in_scope_variable is correct for first quad');
 	cmp_deeply(@{$plan->children}[1]->in_scope_variables, ['s'], 'in_scope_variable is correct for second quad');
@@ -57,10 +57,10 @@ subtest 'Make sure Quad plans are accepted by the BGP' => sub {
 												object => literal('o'), 
 												graph => $graph, 
 												distinct => 0);
-	my $bgpplan = AtteanX::Store::SPARQL::Plan::BGP->new(children => [$p1,$p2],
+	my $bgpplan = AtteanX::Plan::SPARQLBGP->new(children => [$p1,$p2],
 																		  distinct => 0
 																		 );
-	isa_ok($bgpplan, 'AtteanX::Store::SPARQL::Plan::BGP');
+	isa_ok($bgpplan, 'AtteanX::Plan::SPARQLBGP');
 	does_ok($bgpplan, 'Attean::API::Plan');
 	is(scalar @{$bgpplan->children}, 2, 'Has two kids');
 
