@@ -1,5 +1,16 @@
 # This file acts as the project's changelog.
 
+`AtteanX-Store-SPARQL 0.006 cpan:KJETILK`
+    issued  2016-03-07;
+    label   "API change for plan" ;
+    changeset [
+        dcs:versus `AtteanX-Store-SPARQL 0.004 cpan:KJETILK`;
+               item [ rdfs:label "Rename AtteanX::Store::SPARQL::Plan::BGP to AtteanX::Plan::SPARQLBGP.";
+               a dcs:Change;
+             ]
+    ] .
+
+
 `AtteanX-Store-SPARQL 0.004 cpan:KJETILK`
 	issued  2016-02-09;
 	label   "A few smaller changes".
