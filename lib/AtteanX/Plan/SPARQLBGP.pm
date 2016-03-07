@@ -1,6 +1,6 @@
 =head1 NAME
 
-AtteanX::Store::SPARQL::Plan::BGP - Plan for efficient evaluation of SPARQL BGPs on remote endpoints
+AtteanX::Plan::SPARQLBGP - Plan for efficient evaluation of SPARQL BGPs on remote endpoints
 
 =head1 SYNOPSIS
 
@@ -8,8 +8,8 @@ This is typically only constructed by planning hacks deep in the code,
 but might look like:
 
   use v5.14;
-  use AtteanX::Store::SPARQL::Plan::BGP;
-  my $new_bgp_plan = AtteanX::Store::SPARQL::Plan::BGP->new(children => [$some_quads],
+  use AtteanX::Plan::SPARQLBGP;
+  my $new_bgp_plan = AtteanX::Plan::SPARQLBGP->new(children => [$some_quads],
                                                             distinct => 0,
                                                             ordered => []);
 
@@ -41,7 +41,7 @@ For author, copyright and other details, see L<AtteanX::Store::SPARQL>.
 =cut
 
 
-package AtteanX::Store::SPARQL::Plan::BGP;
+package AtteanX::Plan::SPARQLBGP;
 
 use v5.14;
 use warnings;

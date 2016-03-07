@@ -14,7 +14,7 @@ use Types::URI -all;
 use Types::Standard qw(InstanceOf);
 use Attean;
 use Attean::RDF;
-use AtteanX::Store::SPARQL::Plan::BGP;
+use AtteanX::Plan::SPARQLBGP;
 use LWP::UserAgent;
 
 use Data::Dumper;
@@ -87,7 +87,7 @@ sub plans_for_algebra {
 															 graph => $active_graphs,
 															 distinct => 0));
 			  }
-		return AtteanX::Store::SPARQL::Plan::BGP->new(children => \@quads,
+		return AtteanX::Plan::SPARQLBGP->new(children => \@quads,
 																	 distinct => 0); # TODO: Fix
 	}
 	return;
@@ -123,7 +123,7 @@ endpoints.
 
 This distribution also brings a corresponding
 L<AtteanX::Model::SPARQL>, which allows query plans to be made, and a
-L<AtteanX::Store::SPARQL::Plan::BGP> plan class, which contains a
+L<AtteanX::Plan::SPARQLBGP> plan class, which contains a
 rudimentary cost estimate that attempts to avoid sending Cartesian
 joins to remote endpoints if possible.
 

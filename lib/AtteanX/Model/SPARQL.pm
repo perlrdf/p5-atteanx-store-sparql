@@ -28,7 +28,7 @@ sub cost_for_plan {
  	my $planner = shift;
 
 	# TODO: check if the store does something
-	if ($plan->isa('AtteanX::Store::SPARQL::Plan::BGP')) {
+	if ($plan->isa('AtteanX::Plan::SPARQLBGP')) {
 		# BGPs should have a cost proportional to the number of triple patterns,
 		# but be much more costly if they contain a cartesian product.
 		if ($plan->children_are_variable_connected) {
