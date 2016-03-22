@@ -69,7 +69,6 @@ sub impl {
 		$sparql .= "\n  " . $pattern->as_sparql . ' . ';
 	}
 	$sparql .= "\n}\n";
-	warn $sparql;
 	$self->log->debug("Using query:\n$sparql");
 	return sub {
 		return $model->get_sparql($sparql)
