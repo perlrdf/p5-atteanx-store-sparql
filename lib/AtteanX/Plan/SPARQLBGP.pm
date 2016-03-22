@@ -47,7 +47,8 @@ use v5.14;
 use warnings;
 
 use Moo;
-use Data::Dumper;
+use Scalar::Util qw(blessed);
+
 with 'Attean::API::QueryTree',
      'Attean::API::Plan',
      'Attean::API::UnionScopeVariablesPlan',
@@ -61,24 +62,18 @@ sub plan_as_string {
 sub impl {
 	my $self = shift;
 	my $model = shift;
-	my $sparql = 'SELECT * WHERE ' . $self->as_sparql;
+	my $sparql = 'SELECT * WHERE {';
+	foreach my $child (@{$self->children}) {
+		my @terms = $child->values; 
+		my $pattern = Attean::TriplePattern->new(@terms[0..2]);
+		$sparql .= "\n  " . $pattern->as_sparql . ' . ';
+	}
+	$sparql .= "\n}\n";
+	warn $sparql;
 	$self->log->debug("Using query:\n$sparql");
 	return sub {
 		return $model->get_sparql($sparql)
 	}
 }
 
-# TODO: This is cutnpaste from Attean::Algebra::BGP, any way to not do that?
-sub _as_sparql {
-	my $self = shift;
-	my %args = @_;
-	my $level = $args{level} // 0;
-	my $sp = $args{indent} // '    ';
-	my $indent = $sp x $level;
-
-	return "${indent}{\n"
-	  . join('', map { $indent . $sp . $_->_as_sparql( %args, level => $level+1 ) } @{ $self->quads }) . "${indent}}\n";
-}
-
 1;
-
