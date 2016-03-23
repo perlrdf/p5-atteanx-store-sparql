@@ -30,7 +30,7 @@ has 'ua' => (is => 'rw', isa => InstanceOf['LWP::UserAgent'], builder => '_build
 sub _build_ua {
 	my $self = shift;
 	my $ua = LWP::UserAgent->new;
-	$ua->default_headers->push_header( 'Accept' => Attean->acceptable_parsers(handles => q[Attean::API::Result]));
+	$ua->default_headers->push_header( 'Accept' => 'application/sparql-results+json' ); #Attean->acceptable_parsers(handles => q[Attean::API::Result]));
 	return $ua;
 }
 
@@ -53,7 +53,6 @@ sub get_sparql {
 	my $self = shift;
 	my $sparql = shift;
 	my $ua = shift || $self->ua;
-
 	my $url = $self->endpoint_url->clone;
 	my %query = $url->query_form;
 	$query{'query'} = $sparql;
@@ -64,7 +63,7 @@ sub get_sparql {
 		my $parsertype = Attean->get_parser( media_type => $response->content_type);
 		croak 'Could not parse response from '. $self->endpoint_url->as_string . ' which returned ' . $response->content_type unless defined($parsertype);
 		my $p = $parsertype->new;
-		return $p->parse_iter_from_bytes($response->decoded_content);
+		return $p->parse_iter_from_bytes($response->content);
 	} else {
 		$self->log->trace('Got an error, dumping the response: ' . Dumper($response));
 		croak 'Error making remote SPARQL call to endpoint ' . $self->endpoint_url->as_string . ' (' .$response->status_line. ')';
