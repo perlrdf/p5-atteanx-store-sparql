@@ -1,17 +1,20 @@
 package AtteanX::Query::AccessPlan::SingleQuadBGP;
+
+use strict;
+use warnings;
+
 use Moo::Role;
 use AtteanX::Plan::SPARQLBGP;
 
 around 'access_plans' => sub {
-	my $orig			= shift;
-	my $self			= shift;
-	my $model			= shift;
-	my $active_graphs	= shift;
-	my $pattern			= shift;
-	my @plans			= $orig->($self, $model, $active_graphs, $pattern, @_);
-	my %seen;
+	my $orig = shift;
+	my $self = shift;
+	my $model = shift;
+	my $active_graphs = shift;
+	my $pattern = shift;
+	my @plans = $orig->($self, $model, $active_graphs, $pattern, @_);
 	if ($pattern->does('Attean::API::TriplePattern')) {
-		my $sp	= AtteanX::Plan::SPARQLBGP->new(children => [shift(@plans)], distinct => 0, ordered => []);
+		my $sp = AtteanX::Plan::SPARQLBGP->new(children => [shift(@plans)], distinct => 0, ordered => []);
 		push(@plans, $sp);
 	}
 	return @plans;
