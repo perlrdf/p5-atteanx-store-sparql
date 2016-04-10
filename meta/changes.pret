@@ -1,5 +1,19 @@
 # This file acts as the project's changelog.
 
+`AtteanX-Store-SPARQL 0.007_01 cpan:KJETILK`
+    issued  2016-04-10;
+    label   "Minor refactoring" ;
+    changeset [
+        dcs:versus `AtteanX-Store-SPARQL 0.006 cpan:KJETILK`;
+               item [ rdfs:label "Accept only JSON SPARQL results.";
+               a dcs:Change;
+               item [ rdfs:label "Use the content method on the response object.";
+               a dcs:Change;
+               item [ rdfs:label "Do the SPARQL serialization in the impl method.";
+               a dcs:Change;
+             ]
+    ] .
+
 `AtteanX-Store-SPARQL 0.006 cpan:KJETILK`
     issued  2016-03-07;
     label   "API change for plan" ;
