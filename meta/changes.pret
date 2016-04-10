@@ -5,13 +5,9 @@
     label   "Minor refactoring" ;
     changeset [
         dcs:versus `AtteanX-Store-SPARQL 0.006 cpan:KJETILK`;
-               item [ rdfs:label "Accept only JSON SPARQL results.";
-               a dcs:Change;
-               item [ rdfs:label "Use the content method on the response object.";
-               a dcs:Change;
-               item [ rdfs:label "Do the SPARQL serialization in the impl method.";
-               a dcs:Change;
-             ]
+        item [ rdfs:label "Accept only JSON SPARQL results."; a dcs:Change; ];
+        item [ rdfs:label "Use the content method on the response object."; a dcs:Change; ];
+        item [ rdfs:label "Do the SPARQL serialization in the impl method."; a dcs:Change; ];
     ] .
 
 `AtteanX-Store-SPARQL 0.006 cpan:KJETILK`
