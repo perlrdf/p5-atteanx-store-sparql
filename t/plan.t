@@ -12,10 +12,11 @@ isa_ok($p, 'Attean::IDPQueryPlanner');
 my $store	= Attean->get_store('SPARQL')->new('endpoint_url' => iri('http://test.invalid/'));
 isa_ok($store, 'AtteanX::Store::SPARQL');
 does_ok($store, 'Attean::API::TripleStore');
-does_ok($store, 'Attean::API::CostPlanner');
 
 my $model	= AtteanX::Model::SPARQL->new( store => $store );
 isa_ok($model, 'AtteanX::Model::SPARQL');
+does_ok($model, 'Attean::API::CostPlanner');
+
 can_ok($model, 'get_sparql');
 my $graph = iri('http://example.org');
 my $t		= triplepattern(variable('s'), iri('p'), literal('1'));

@@ -21,7 +21,6 @@ use Data::Dumper;
 use Carp;
 
 with 'Attean::API::TripleStore';
-with 'Attean::API::CostPlanner';
 with 'MooX::Log::Any';
 
 has 'endpoint_url' => (is => 'ro', isa => Uri, coerce => 1);
@@ -90,12 +89,6 @@ sub plans_for_algebra {
 																	 distinct => 0); # TODO: Fix
 	}
 	return;
-}
-
-sub cost_for_plan {
-	my $self = shift;
-	my $plan = shift;
-	return; #TODO for now
 }
 
 1;
