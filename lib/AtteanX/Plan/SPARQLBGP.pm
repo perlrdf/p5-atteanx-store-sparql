@@ -46,6 +46,9 @@ package AtteanX::Plan::SPARQLBGP;
 use v5.14;
 use warnings;
 
+our $AUTHORITY = 'cpan:KJETILK';
+our $VERSION   = '0.010';
+
 use Moo;
 use Scalar::Util qw(blessed);
 

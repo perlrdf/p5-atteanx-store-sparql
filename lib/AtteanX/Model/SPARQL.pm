@@ -3,6 +3,9 @@ package AtteanX::Model::SPARQL;
 use v5.14;
 use warnings;
 
+our $AUTHORITY = 'cpan:KJETILK';
+our $VERSION   = '0.010';
+
 use Moo;
 use Types::Standard qw(InstanceOf);
 use namespace::clean;
