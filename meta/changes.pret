@@ -1,5 +1,15 @@
 # This file acts as the project's changelog.
 
+`AtteanX-Store-SPARQL 0.010 cpan:KJETILK`
+    issued  2016-05-15;
+    label   "Quality improvements." ;
+    changeset [
+        dcs:versus `AtteanX-Store-SPARQL 0.008 cpan:KJETILK`;
+        item [ rdfs:label "Set version in all perl modules."; a dcs:Addition; ];
+        item [ rdfs:label "Test model for costplanner support."; a dcs:Addition; ];
+        item [ rdfs:label "Remove the CostPlanner from the store."; a dcs:Removal; ];
+    ] .
+
 `AtteanX-Store-SPARQL 0.008 cpan:KJETILK`
     issued  2016-04-11;
     label   "Add single-BGP access plan. Some fixes" ;
