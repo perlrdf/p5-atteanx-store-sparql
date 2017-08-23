@@ -1,6 +1,10 @@
 package Test::Attean::Store::SPARQL::Role::CreateStore;
 use strict;
 use warnings;
+
+our $AUTHORITY = 'cpan:KJETILK';
+our $VERSION   = '0.010';
+
 use RDF::Trine::Model;
 use RDF::Trine qw(statement iri blank literal);
 use RDF::Endpoint;

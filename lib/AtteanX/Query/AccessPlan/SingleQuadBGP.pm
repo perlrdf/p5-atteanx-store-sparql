@@ -3,6 +3,9 @@ package AtteanX::Query::AccessPlan::SingleQuadBGP;
 use strict;
 use warnings;
 
+our $AUTHORITY = 'cpan:KJETILK';
+our $VERSION   = '0.010';
+
 use Moo::Role;
 use AtteanX::Plan::SPARQLBGP;
 
