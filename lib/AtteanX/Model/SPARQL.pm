@@ -18,7 +18,8 @@ has 'store'    => (
 										  get_quads => 'get_triples',
 										  count_quads => 'count_triples',
 										  get_sparql => 'get_sparql',
-										  plans_for_algebra => 'plans_for_algebra'
+										  plans_for_algebra => 'plans_for_algebra',
+										  count_quads_estimate => 'count_quads_estimate'
 										}
 						);
 
