@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 our $AUTHORITY = 'cpan:KJETILK';
-our $VERSION   = '0.010_01';
+our $VERSION   = '0.011_01';
 
 use RDF::Trine::Model;
 use RDF::Trine qw(statement iri blank literal);

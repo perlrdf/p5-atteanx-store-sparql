@@ -4,7 +4,7 @@ use v5.14;
 use warnings;
 
 our $AUTHORITY = 'cpan:KJETILK';
-our $VERSION   = '0.010_01';
+our $VERSION   = '0.011_01';
 
 use Moo;
 use Types::Standard qw(InstanceOf);
