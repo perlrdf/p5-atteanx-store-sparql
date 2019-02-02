@@ -1,7 +1,7 @@
 # This file acts as the project's changelog.
 
-`AtteanX-Store-SPARQL 0.011_01 cpan:KJETILK`
-    issued  2019-01-31;
+`AtteanX-Store-SPARQL 0.012 cpan:KJETILK`
+    issued  2019-02-02;
     label   "Fix bug from upstream changes." ;
     changeset [
         dcs:versus `AtteanX-Store-SPARQL 0.010 cpan:KJETILK`;
