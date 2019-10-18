@@ -14,6 +14,7 @@
 	:runtime-suggestion     [ :on "RDF::Endpoint"^^:CpanId ];
 	:runtime-suggestion     [ :on "Test::LWP::UserAgent 0.027"^^:CpanId ];
         :runtime-requirement    [ :on "Moo 1.006000"^^:CpanId ];
+        :runtime-requirement    [ :on "namespace::clean"^^:CpanId ];
         :runtime-requirement    [ :on "Attean 0.010"^^:CpanId ];
         :runtime-requirement    [ :on "Types::Standard"^^:CpanId ];
         :runtime-requirement    [ :on "Types::URI"^^:CpanId ];
